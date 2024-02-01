@@ -12,16 +12,17 @@ BH_STATUS = {
 }
 
 -- Abstract node in an BehaviourTree, as interface that can be actived, run and deactived
-behaviour = {}
-class('Behavior', {}, behaviour).extends()
+mylib = mylib or {}
+mylib.behaviour = {}
+class('Behavior', {}, mylib.behaviour).extends()
 
-function Behavior:init()
-    Behavior.super.init(self)
+function mylib.behaviour.Behavior:init()
+    mylib.behaviour.Behavior.super.init(self)
     self.status = BH_STATUS.INVALID
 end
 
 -- Wrapper function for updating the behavior
-function Behavior:update()
+function mylib.behaviour.Behavior:update()
     if (not self:isRunning()) then
         self:onActivate()
     end
@@ -34,32 +35,32 @@ function Behavior:update()
 end
 
 -- Call to imediately end a running behavior
-function Behaviour:abort()
+function mylib.behaviour.Behaviour:abort()
     if (self.status == BH_STATUS.RUNNING) then
         self.status = BH_STATUS.ABORTED
         self.onTerminate()
     end
 end
 
-function Behavior:isRunning()
+function mylib.behaviour.Behavior:isRunning()
     return self.status == BH_STATUS.RUNNING
 end
 
-function Behavior:getStatus()
+function mylib.behaviour.Behavior:getStatus()
     return self.status
 end
 
 -- Called once, immediately before first call to update
-function Behavior:onActivate()
+function mylib.behaviour.Behavior:onActivate()
     self.status = BH_STATUS.RUNNING
     self.nTicks = 0
 end
 
 -- Called once, immediately after last call to update
-function Behavior:onTerminate(status)
+function mylib.behaviour.Behavior:onTerminate(status)
 end
 
 -- Update the behavior
-function Behavior:onUpdate()
+function mylib.behaviour.Behavior:onUpdate()
     return BH_STATUS.SUCCESS
 end

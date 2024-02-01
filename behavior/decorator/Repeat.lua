@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/decorator/BehaviorDecorator"
+import "libs/behavior/decorator/Decorator"
 
 -- Repeat a given behavior until limit is reached or child returns failure
 class('RepeatBehavior').extends(BehaviorDecorator)

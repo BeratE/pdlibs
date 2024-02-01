@@ -1,20 +1,20 @@
 import "CoreLibs/object"
 
-import "libs/behavior/composite/BehaviorComposite"
+import "libs/behavior/composite/Composite"
 
 -- (AND) Execute all childs until one has failed or all children succeeded
-class('SequenceBehavior').extends(BehaviorComposite)
+class('Sequence', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
 
-function SequenceBehavior:init(children)
-    SequenceBehavior.super.init(self, children)
+function mylib.behaviour.Sequence:init(children)
+    mylib.behaviour.Sequence.super.init(self, children)
 end
 
-function SequenceBehavior:onActivate()
-    SequenceBehavior.super.onActivate(self)
+function mylib.behaviour.Sequence:onActivate()
+    mylib.behaviour.Sequence.super.onActivate(self)
     self.currChildIdx = 1
 end
 
-function SequenceBehavior:onUpdate()
+function mylib.behaviour.Sequence:onUpdate()
     while true do
         local status = self.children[self.currChildIdx]:update()
         -- If child fails or keeps running do same

@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/composite/BehaviorComposite"
+import "libs/behavior/composite/Composite"
 
 -- Success/Fail Policy of executed children in parallel execution
 ParallelPolicy = {
@@ -9,15 +9,15 @@ ParallelPolicy = {
 }
 
 -- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
-class('ParallelBehavior').extends(BehaviorComposite)
+class('Parallel', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
 
-function ParallelBehavior:init(children, successPolicy, failurePolicy)
-    ParallelBehavior.super.init(self, children)
+function mylib.behaviour.Parallel:init(children, successPolicy, failurePolicy)
+    mylib.behaviour.Parallel.super.init(self, children)
     self.successPolicy = successPolicy or ParallelPolicy.RequireAll
     self.failurePolicy = failurePolicy or ParallelPolicy.RequireOne
 end
 
-function ParallelBehavior:onUpdate()
+function mylib.behaviour.Parallel:onUpdate()
     local successCount = 0
     local failureCount = 0
     for _, child in self.children do
@@ -46,8 +46,8 @@ function ParallelBehavior:onUpdate()
     return BH_STATUS.RUNNING
 end
 
-function ParallelBehavior:onTerminate(status)
-    ParallelBehavior.super.onTerminate(self)
+function mylib.behaviour.Parallel:onTerminate(status)
+    mylib.behaviour.Parallel.super.onTerminate(self)
     for _, child in ipairs(self.children) do
         child:abort()
     end
