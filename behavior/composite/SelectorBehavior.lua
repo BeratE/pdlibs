@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 import "libs/behavior/composite/BehaviorComposite"
 
--- Execute all childs until one has executed successfully or all children fail
+-- (OR) Execute all children until one has executed successfully or all children fail
 class('SelectorBehavior').extends(BehaviorComposite)
 
 function SelectorBehavior:init(children)

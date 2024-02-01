@@ -2,16 +2,16 @@ import "CoreLibs/object"
 
 import "libs/behavior/composite/BehaviorComposite"
 
+-- Success/Fail Policy of executed children in parallel execution
 ParallelPolicy = {
     RequireOne = 1,
     RequireAll = 2
 }
 
--- Allow multiple behaviors to be executed in parallel 
--- and for those behaviors to be aborted if some or all of them fail
+-- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
 class('ParallelBehavior').extends(BehaviorComposite)
 
-function ParallelBehavior:init(successPolicy, failurePolicy, children)
+function ParallelBehavior:init(children, successPolicy, failurePolicy)
     ParallelBehavior.super.init(self, children)
     self.successPolicy = successPolicy or ParallelPolicy.RequireAll
     self.failurePolicy = failurePolicy or ParallelPolicy.RequireOne
