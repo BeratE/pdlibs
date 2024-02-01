@@ -12,7 +12,8 @@ BH_STATUS = {
 }
 
 -- Abstract node in an BehaviourTree, as interface that can be actived, run and deactived
-class('Behavior').extends()
+behaviour = {}
+class('Behavior', {}, behaviour).extends()
 
 function Behavior:init()
     Behavior.super.init(self)

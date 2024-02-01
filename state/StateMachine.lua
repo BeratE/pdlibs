@@ -3,16 +3,16 @@ import "CoreLibs/object"
 import "libs/state/State"
 
 -- StateMachine used to handle transitions between states.
-class('StateMachine').extends()
+class('StateMachine', {}, mylib.state).extends()
 
-function StateMachine:init(scene)
-    StateMachine.super.init(self)
+function mylib.state.StateMachine:init(scene)
+    mylib.state.StateMachine.super.init(self)
     self.currentState = scene
     self.previousState = nil
 end
 
 -- Switch to the given state
-function StateMachine:switch(state,
+function mylib.state.StateMachine:switch(state,
     --[[optional]] skipExit,
     --[[optional]] skipEnter)
     if (self.currentState and not skipExit) then
@@ -26,7 +26,7 @@ function StateMachine:switch(state,
 end
 
 -- Revert to the previous state
-function StateMachine:revert(
+function mylib.state.StateMachine:revert(
     --[[optional]] skipExit,
     --[[optional]] skipEnter)
     scene = self.currentState
@@ -41,7 +41,7 @@ function StateMachine:revert(
 end
 
 -- Update the current state
-function StateMachine:update()
+function mylib.state.StateMachine:update()
     if (self.currentState) then
         self.currentState:onUpdate()
     end

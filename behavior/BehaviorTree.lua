@@ -8,7 +8,7 @@ class('BehaviorTree').extends()
 function BehaviorTree:init(rootBehavior)
     BehaviourTree.super.init(self)
     self.root = rootBehavior
-    assert(self.root and self.root:isa(Behavior), "Invalid object passed to BehaviorTree")
+    assert(self.root and self.root:isa(behaviour.Behavior), "Invalid object passed to BehaviorTree")
 end
 
 -- Update root node

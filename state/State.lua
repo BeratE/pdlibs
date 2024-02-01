@@ -1,16 +1,18 @@
 import "CoreLibs/object"
 
 -- Abstract representation of a state.
-class('State').extends()
+mylib = mylib or {}
+mylib.state = {}
+class('State', {}, mylib.state).extends()
 
 -- Called when entering the state.
-function State:onEnter()
+function mylib.state.State:onEnter()
 end
 
 -- Called when exiting the state.
-function State:onExit()
+function mylib.state.State:onExit()
 end
 
 -- Called on every update iteration.
-function State:onUpdate()
+function mylib.state.State:onUpdate()
 end
