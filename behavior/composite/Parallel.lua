@@ -2,14 +2,14 @@ import "CoreLibs/object"
 
 import "libs/behavior/composite/Composite"
 
+-- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
+class('Parallel', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
+
 -- Success/Fail Policy of executed children in parallel execution
 ParallelPolicy = {
     RequireOne = 1,
     RequireAll = 2
 }
-
--- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
-class('Parallel', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
 
 function mylib.behaviour.Parallel:init(children, successPolicy, failurePolicy)
     mylib.behaviour.Parallel.super.init(self, children)

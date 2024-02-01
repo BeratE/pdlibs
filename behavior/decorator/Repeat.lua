@@ -3,14 +3,14 @@ import "CoreLibs/object"
 import "libs/behavior/decorator/Decorator"
 
 -- Repeat a given behavior until limit is reached or child returns failure
-class('RepeatBehavior').extends(BehaviorDecorator)
+class('Repeat', {}, mylib.behaviour).extends(mylib.behaviour.Decorator)
 
-function RepeatBehavior:init(child, limit)
-    RepeatBehavior.super.init(self, child)
+function mylib.behaviour.Repeat:init(child, limit)
+    mylib.behaviour.Repeat.super.init(self, child)
     self.limit = limit
 end
 
-function RepeatBehavior:onUpdate()
+function mylib.behaviour.Repeat:onUpdate()
     while true do
         local status = child:update()
         if (status == BH_STATUS.RUNNING) then

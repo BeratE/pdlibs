@@ -1,5 +1,10 @@
 import "CoreLibs/object"
 
+-- Abstract node in an BehaviourTree, as interface that can be actived, run and deactived
+mylib = mylib or {}
+mylib.behaviour = {}
+class('Behavior', {}, mylib.behaviour).extends()
+
 -- Behaviour Status
 BH_STATUS = {
     -- Completion Status
@@ -10,11 +15,6 @@ BH_STATUS = {
     RUNNING   = 2,
     ABORTED   = 3,
 }
-
--- Abstract node in an BehaviourTree, as interface that can be actived, run and deactived
-mylib = mylib or {}
-mylib.behaviour = {}
-class('Behavior', {}, mylib.behaviour).extends()
 
 function mylib.behaviour.Behavior:init()
     mylib.behaviour.Behavior.super.init(self)
