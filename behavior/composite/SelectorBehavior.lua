@@ -9,8 +9,8 @@ function SelectorBehavior:init(children)
     SelectorBehavior.super.init(self, children)
 end
 
-function SelectorBehavior:reset()
-    SelectorBehavior.super.reset(self)
+function SelectorBehavior:onActivate()
+    SelectorBehavior.super.onActivate(self)
     self.currChildIdx = 1
 end
 

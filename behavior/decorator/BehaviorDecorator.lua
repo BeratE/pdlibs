@@ -14,8 +14,3 @@ end
 function BehaviorDecorator:onUpdate()
     self.child:update()
 end
-
-function Behavior:reset()
-    Behaviour.super.reset(self)
-    self.child:reset()
-end

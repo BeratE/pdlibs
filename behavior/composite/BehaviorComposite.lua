@@ -10,15 +10,8 @@ function BehaviorComposite:init(children)
     self.children = children
     assert(self.children and type(self.children) == "table", "Invalid children object passed to BehaviorComposite")
     self.nChildren = 0
-    for k,v in pairs(self.children) do
+    for _, child in pairs(self.children) do
         self.nChildren += 1
-        assert(v and valua:isa(Behavior), "Invalid object passed to BehaviorComposite")
-    end
-end
-
-function BehaviorComposite:reset()
-    BehaviorComposite.super.reset(self)
-    for _, child in ipairs(self.children) do
-        child:reset()
+        assert(child and child:isa(Behavior), "Invalid child object passed to BehaviorComposite")
     end
 end

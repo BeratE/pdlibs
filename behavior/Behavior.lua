@@ -8,6 +8,7 @@ BH_STATUS = {
     -- Execution Hints
     INVALID   = 1,
     RUNNING   = 2,
+    ABORTED   = 3,
 }
 
 -- Abstract node in an BehaviourTree, as interface that can be actived, run and deactived
@@ -15,7 +16,7 @@ class('Behavior').extends()
 
 function Behavior:init()
     Behavior.super.init(self)
-    self:reset()
+    self.status = BH_STATUS.INVALID
 end
 
 -- Wrapper function for updating the behavior
@@ -34,6 +35,7 @@ end
 -- Call to imediately end a running behavior
 function Behaviour:abort()
     if (self.status == BH_STATUS.RUNNING) then
+        self.status = BH_STATUS.ABORTED
         self.onTerminate()
     end
 end
@@ -46,14 +48,10 @@ function Behavior:getStatus()
     return self.status
 end
 
-function Behaviour:reset()
-    self.status = BH_STATUS.INVALID
-    self.nTicks = 0
-end
-
 -- Called once, immediately before first call to update
 function Behavior:onActivate()
     self.status = BH_STATUS.RUNNING
+    self.nTicks = 0
 end
 
 -- Called once, immediately after last call to update

@@ -9,8 +9,8 @@ function SequenceBehavior:init(children)
     SequenceBehavior.super.init(self, children)
 end
 
-function SequenceBehavior:reset()
-    SequenceBehavior.super.reset(self)
+function SequenceBehavior:onActivate()
+    SequenceBehavior.super.onActivate(self)
     self.currChildIdx = 1
 end
 

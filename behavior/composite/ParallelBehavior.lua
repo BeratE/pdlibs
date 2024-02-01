@@ -17,10 +17,6 @@ function ParallelBehavior:init(children, successPolicy, failurePolicy)
     self.failurePolicy = failurePolicy or ParallelPolicy.RequireOne
 end
 
-function ParallelBehavior:reset()
-    ParallelBehavior.super.reset(self)
-end
-
 function ParallelBehavior:onUpdate()
     local successCount = 0
     local failureCount = 0
