@@ -1,27 +1,29 @@
 import "CoreLibs/object"
 
 -- Basic queue data structure
-class('Queue').extends()
+mylib = mylib or {}
+mylib.struct = {}
+class('Queue', {}, mylib.struct).extends()
 
-function Queue:init()
-    Queue.super.init(self)
+function mylib.struct.Queue:init()
+    mylib.struct.Queue.super.init(self)
     self:reset()
 end
 
-function Queue:reset()
+function mylib.struct.Queue:reset()
     self.first = 1
     self.last = 0
     self.out = {}
 end
 
 -- Push item to back of queue
-function Queue:push(item)
+function mylib.struct.Queue:push(item)
     self.last = self.last + 1
     self.out[self.last] = item
 end
 
 -- Pop item from the front of the queue
-function Queue:pop()
+function mylib.struct.Queue:pop()
     if (self.first <= self.last) then
         local value = self.out[self.first]
         self.out[self.first] = nil
@@ -33,7 +35,7 @@ function Queue:pop()
 end
 
 -- Peek item from the front of the queue without popping
-function Queue:peek()
+function mylib.struct.Queue:peek()
     if (self.first <= self.last) then
         return self.out[self.first]
     else
@@ -42,26 +44,26 @@ function Queue:peek()
 end
 
 -- Return the number of elements currently in the queue
-function Queue:size()
+function mylib.struct.Queue:size()
     return self.last - self.first + 1
 end
 
 -- Return iterator function to the queue
-function Queue:iterator()
+function mylib.struct.Queue:iterator()
     return function ()
         return self:pop()
     end
 end
 
 -- Pop queue until its empty
-function Queue:clear()
+function mylib.struct.Queue:clear()
     while(self:pop()) do
     end
     self:reset()
 end
 
 -- Transform contents of the queue into a string
-function Queue:toString()
+function mylib.struct.Queue:toString()
     txt = ""
     for i = self.first, self.last, 1 do
         txt = txt .. self:elementToString(i) .. " "
@@ -69,28 +71,28 @@ function Queue:toString()
     return txt
 end
 
-function Queue:elementToString(index)
+function mylib.struct.Queue:elementToString(index)
     return tostring(self.out[index])
 end
 
 
 -- Remove items from startIndex to endIndex (including) from the queue
-function Queue:remove(startIndex, endIndex)
+function mylib.struct.Queue:remove(startIndex, endIndex)
     -- print("Queue: (" .. self:toString() .. ") remove [" .. startIndex .. ", " .. endIndex .. "]")
     local size = self:size()
     if (endIndex <= size) then
         for i = 1, startIndex-1 do
-            Queue.push(self, Queue.pop(self))
+            mylib.struct.Queue.push(self, mylib.struct.Queue.pop(self))
         end
         for i = startIndex, endIndex do
-            Queue.pop(self)
+            mylib.struct.Queue.pop(self)
         end
         for i = endIndex +1, size do
-            Queue.push(self, Queue.pop(self))
+            mylib.struct.Queue.push(self, mylib.struct.Queue.pop(self))
         end
     end
 end
 
-function Queue:isFirstItem(item)
+function mylib.struct.Queue:isFirstItem(item)
     return self:peek() == item
 end
