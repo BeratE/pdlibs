@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 -- Basic queue data structure
 mylib = mylib or {}
-mylib.struct = {}
+mylib.struct = mylib.struct or {}
 class('Queue', {}, mylib.struct).extends()
 
 function mylib.struct.Queue:init()
