@@ -66,15 +66,19 @@ end
 function mylib.struct.Queue:toString()
     txt = ""
     for i = self.first, self.last, 1 do
-        txt = txt .. self:elementToString(i) .. " "
+        txt = txt .. self:itemToString(i) .. " "
     end
     return txt
 end
 
-function mylib.struct.Queue:elementToString(index)
-    return tostring(self.out[index])
+function mylib.struct.Queue:itemToString(index)
+    return tostring(self:getItemAtIndex(index))
 end
 
+
+function mylib.struct.Queue:getItemAtIndex(index)
+    return self.out[index]
+end
 
 -- Remove items from startIndex to endIndex (including) from the queue
 function mylib.struct.Queue:remove(startIndex, endIndex)
@@ -95,4 +99,11 @@ end
 
 function mylib.struct.Queue:isFirstItem(item)
     return self:peek() == item
+end
+
+-- Return a reference to a random element in the queue
+function mylib.struct.Queue:getRandomItem()
+    if (self.first <= self.last) then
+        return self:getItemAtIndex(math.random(self.first, self.last))
+    end
 end

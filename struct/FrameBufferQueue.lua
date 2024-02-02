@@ -27,6 +27,6 @@ function mylib.struct.FrameBufferQueue:push(item)
 end
 
 -- Override
-function mylib.struct.FrameBufferQueue:elementToString(index)
-    return tostring(self.out[index][1])
+function mylib.struct.FrameBufferQueue:getItemAtIndex(index)
+    return self.out[index][1]
 end
