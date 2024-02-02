@@ -6,13 +6,13 @@ mylib.struct = mylib.struct or {}
 class("LinkedList", {}, mylib.struct).extends()
 class("LinkedListNode", {next = nil, prev = nil, value = nil}, mylib.struct).extends()
 
-function LinkedListNode:init(value, prev, next)
+function mylib.struct.LinkedListNode:init(value, prev, next)
     self.value = value
     self.prev = prev
     self.next = next
 end
 
-function LinkedList:init(items)
+function mylib.struct.LinkedList:init(items)
     self.front = nil
     self.back = nil
     if (items) then
@@ -37,7 +37,7 @@ function LinkedList:init(items)
     end
 end
 
-function LinkedList:addBack(item)
+function mylib.struct.LinkedList:addBack(item)
     if (self.last ~= nil) then
         self.last.next = LinkedListNode(item, self.last, nil)
         self.last = self.last.next
@@ -47,7 +47,7 @@ function LinkedList:addBack(item)
     end
 end
 
-function LinkedList:addFront(item)
+function mylib.struct.LinkedList:addFront(item)
     if (self.first ~= nil) then
         self.first.prev = LinkedListNode(item, nil, self.first)
         self.last = self.last.next
@@ -57,7 +57,7 @@ function LinkedList:addFront(item)
     end
 end
 
-function LinkedList:removeBack()
+function mylib.struct.LinkedList:removeBack()
     if (self.last ~= nil) then
         if (self.last.prev ~= nil) then
             self.last = self.last.prev
@@ -69,7 +69,7 @@ function LinkedList:removeBack()
     end
 end
 
-function LinkedList:removeFront()
+function mylib.struct.LinkedList:removeFront()
     if (self.first ~= nil) then
         if (self.first.next ~= nil) then
             self.first = self.first.next
