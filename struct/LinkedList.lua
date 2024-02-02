@@ -33,6 +33,7 @@ function mylib.struct.LinkedListNode:delete()
     self.value = nil
 end
 
+
 function mylib.struct.LinkedList:init(items)
     self.front = nil
     self.back = nil
