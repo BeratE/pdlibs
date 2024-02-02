@@ -18,14 +18,14 @@ function mylib.behaviour.Sequence:onUpdate()
     while true do
         local status = self.children[self.currChildIdx]:update()
         -- If child fails or keeps running do same
-        if (status ~= BH_STATUS.SUCCESS) then
+        if (status ~= mylib.behavior.Status.SUCCESS) then
             return status
         end
         self.currChildIdx += 1
         -- Until end of children are reached
         if (self.currChildIdx > self.nChildren) then
-            return BH_STATUS.SUCCESS
+            return mylib.behavior.Status.SUCCESS
         end
     end
-    return BH_STATUS.INVALID
+    return mylib.behavior.Status.INVALID
 end

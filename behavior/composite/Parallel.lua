@@ -24,26 +24,26 @@ function mylib.behaviour.Parallel:onUpdate()
         if child:isRunning() then
             child:update()
         end
-        if (child:getStatus() == BH_STATUS.SUCCESS) then
+        if (child:getStatus() == mylib.behavior.Status.SUCCESS) then
             successCount += 1
             if (self.successPolicy == ParallelPolicy.RequireOne) then
-                return BH_STATUS.SUCCESS
+                return mylib.behavior.Status.SUCCESS
             end
         end
-        if (child:getStatus() == BH_STATUS.FAILURE) then
+        if (child:getStatus() == mylib.behavior.Status.FAILURE) then
             failureCount += 1
             if (self.failurePolicy == ParallelPolicy.RequireOne) then
-                return BH_STATUS.FAILURE
+                return mylib.behavior.Status.FAILURE
             end
         end
     end
     if (self.failurePolicy == ParallelPolicy.RequireAll and failureCount == self.nChildren) then
-        return BH_STATUS.FAILURE
+        return mylib.behavior.Status.FAILURE
     end
     if (self.successPolicy == ParallelPolicy.RequireAll and successCount == self.nChildren) then
-        return BH_STATUS.SUCCESS
+        return mylib.behavior.Status.SUCCESS
     end
-    return BH_STATUS.RUNNING
+    return mylib.behavior.Status.RUNNING
 end
 
 function mylib.behaviour.Parallel:onTerminate(status)

@@ -18,14 +18,14 @@ function mylib.behaviour.Selector:onUpdate()
     while true do
         local status = self.children[self.currChildIdx]:update()
         -- If child succeeds do same
-        if (status ~= BH_STATUS.FAILURE) then
+        if (status ~= mylib.behavior.Status.FAILURE) then
             return status
         end
         self.currChildIdx += 1
         -- Until end of children are reached
         if (self.currChildIdx > self.nChildren) then
-            return BH_STATUS.FAILURE
+            return mylib.behavior.Status.FAILURE
         end
     end
-    return BH_STATUS.INVALID
+    return mylib.behavior.Status.INVALID
 end

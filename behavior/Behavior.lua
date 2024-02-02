@@ -6,7 +6,7 @@ mylib.behaviour = {}
 class('Behavior', {}, mylib.behaviour).extends()
 
 -- Behaviour Status
-BH_STATUS = {
+mylib.behavior.Status = {
     -- Completion Status
     FAILURE = -1,
     SUCCESS =  0,
@@ -18,7 +18,7 @@ BH_STATUS = {
 
 function mylib.behaviour.Behavior:init()
     mylib.behaviour.Behavior.super.init(self)
-    self.status = BH_STATUS.INVALID
+    self.status = mylib.behavior.Status.INVALID
 end
 
 -- Wrapper function for updating the behavior
@@ -36,14 +36,14 @@ end
 
 -- Call to imediately end a running behavior
 function mylib.behaviour.Behaviour:abort()
-    if (self.status == BH_STATUS.RUNNING) then
-        self.status = BH_STATUS.ABORTED
+    if (self.status == mylib.behavior.Status.RUNNING) then
+        self.status = mylib.behavior.Status.ABORTED
         self.onTerminate()
     end
 end
 
 function mylib.behaviour.Behavior:isRunning()
-    return self.status == BH_STATUS.RUNNING
+    return self.status == mylib.behavior.Status.RUNNING
 end
 
 function mylib.behaviour.Behavior:getStatus()
@@ -52,7 +52,7 @@ end
 
 -- Called once, immediately before first call to update
 function mylib.behaviour.Behavior:onActivate()
-    self.status = BH_STATUS.RUNNING
+    self.status = mylib.behavior.Status.RUNNING
     self.nTicks = 0
 end
 
@@ -62,5 +62,5 @@ end
 
 -- Update the behavior
 function mylib.behaviour.Behavior:onUpdate()
-    return BH_STATUS.SUCCESS
+    return mylib.behavior.Status.SUCCESS
 end
