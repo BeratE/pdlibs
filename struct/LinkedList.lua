@@ -12,6 +12,27 @@ function mylib.struct.LinkedListNode:init(value, prev, next)
     self.next = next
 end
 
+function mylib.struct.LinkedListNode:delete()
+    -- Remove reference to prev
+    if (self.prev ~= nil) then
+        self.prev.next = self.next
+        if (self.next ~= nil) then
+            self.next.prev = self.prev
+        end
+        self.prev = nil
+    end
+    -- Remove reference to next
+    if (self.next ~= nil) then
+        self.next.prev = self.prev
+        if (self.prev ~= nil) then
+            self.prev.next = self.next
+        end
+        self.next = nil
+    end
+    -- Remove reference to value
+    self.value = nil
+end
+
 function mylib.struct.LinkedList:init(items)
     self.front = nil
     self.back = nil
@@ -61,6 +82,7 @@ function mylib.struct.LinkedList:removeBack()
     if (self.last ~= nil) then
         if (self.last.prev ~= nil) then
             self.last = self.last.prev
+            self.last.next:delete()
             self.last.next = nil
         else
             self.last = nil
@@ -77,6 +99,21 @@ function mylib.struct.LinkedList:removeFront()
         else
             self.last = nil
             self.first = nil
+        end
+    end
+end
+
+function mylib.struct.LinkedList:remove(item)
+    local currItem = self.front
+    while (currItem ~= nil) do
+        if (currItem.value == item) then
+            if (currItem == self.front) then
+                self.front = self.front.next
+            end
+            if (currItem == self.back) then
+                self.back = self.back.prev
+            end
+            currItem:delete()
         end
     end
 end
