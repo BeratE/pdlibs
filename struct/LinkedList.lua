@@ -58,6 +58,8 @@ function mylib.struct.LinkedList:init(items)
     end
 end
 
+-- Insertion
+
 function mylib.struct.LinkedList:addBack(item)
     if (self.last ~= nil) then
         self.last.next = mylib.struct.LinkedListNode(item, self.last, nil)
@@ -77,6 +79,8 @@ function mylib.struct.LinkedList:addFront(item)
         self.last = self.first
     end
 end
+
+-- Removal
 
 function mylib.struct.LinkedList:removeBack()
     if (self.last ~= nil) then
@@ -116,4 +120,24 @@ function mylib.struct.LinkedList:remove(item)
             currItem:delete()
         end
     end
+end
+
+-- Retrieval
+
+function mylib.struct.LinkedList:iterator()
+    local currItem = self.first
+    return function ()
+        local val = currItem.value
+        currItem = currItem.next
+        return val
+    end
+end
+
+function mylib.struct.LinkedList:get(index)
+    local iter = self:iterator()
+    local elem = nil
+    for _ = 1, index do
+        elem = iter()
+    end
+    return elem
 end
