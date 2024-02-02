@@ -60,20 +60,20 @@ end
 
 function mylib.struct.LinkedList:addBack(item)
     if (self.last ~= nil) then
-        self.last.next = LinkedListNode(item, self.last, nil)
+        self.last.next = mylib.struct.LinkedListNode(item, self.last, nil)
         self.last = self.last.next
     else
-        self.first = LinkedListNode(item)
+        self.first = mylib.struct.LinkedListNode(item)
         self.last = self.first
     end
 end
 
 function mylib.struct.LinkedList:addFront(item)
     if (self.first ~= nil) then
-        self.first.prev = LinkedListNode(item, nil, self.first)
+        self.first.prev = mylib.struct.LinkedListNode(item, nil, self.first)
         self.last = self.last.next
     else
-        self.first = LinkedListNode(item)
+        self.first = mylib.struct.LinkedListNode(item)
         self.last = self.first
     end
 end
