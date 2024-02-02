@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
--- Very basic double ended linked list data structure
+-- Double Linked-List data structure.
 mylib = mylib or {}
 mylib.struct = mylib.struct or {}
 class("LinkedList", {}, mylib.struct).extends()
@@ -12,6 +12,7 @@ function mylib.struct.LinkedListNode:init(value, prev, next)
     self.next = next
 end
 
+-- Delete a node, connect prev and next in the list.
 function mylib.struct.LinkedListNode:delete()
     -- Remove reference to prev
     if (self.prev ~= nil) then
@@ -61,6 +62,7 @@ end
 
 -- Insertion
 
+-- Add item to the back of the list.
 function mylib.struct.LinkedList:addBack(item)
     if (self.last ~= nil) then
         self.last.next = mylib.struct.LinkedListNode(item, self.last, nil)
@@ -71,6 +73,7 @@ function mylib.struct.LinkedList:addBack(item)
     end
 end
 
+-- Add item to the front of the list.
 function mylib.struct.LinkedList:addFront(item)
     if (self.first ~= nil) then
         self.first.prev = mylib.struct.LinkedListNode(item, nil, self.first)
@@ -83,6 +86,7 @@ end
 
 -- Removal
 
+-- Remove item from the back of the list.
 function mylib.struct.LinkedList:removeBack()
     if (self.last ~= nil) then
         if (self.last.prev ~= nil) then
@@ -96,6 +100,7 @@ function mylib.struct.LinkedList:removeBack()
     end
 end
 
+-- Remove item from the front of the list.
 function mylib.struct.LinkedList:removeFront()
     if (self.first ~= nil) then
         if (self.first.next ~= nil) then
@@ -108,6 +113,7 @@ function mylib.struct.LinkedList:removeFront()
     end
 end
 
+-- Remove the given item from the list.
 function mylib.struct.LinkedList:remove(item)
     local currItem = self.front
     while (currItem ~= nil) do
@@ -123,6 +129,7 @@ function mylib.struct.LinkedList:remove(item)
     end
 end
 
+-- Clear the whole list.
 function mylib.struct.LinkedList:clear()
     local item = self.first
     while item do
@@ -134,6 +141,7 @@ end
 
 -- Retrieval
 
+-- Return an iterator the the list.
 function mylib.struct.LinkedList:iterator()
     local currItem = self.first
     return function ()
@@ -146,6 +154,7 @@ function mylib.struct.LinkedList:iterator()
     end
 end
 
+-- Get an item at a specified index.
 function mylib.struct.LinkedList:get(index)
     local iter = self:iterator()
     local elem = nil

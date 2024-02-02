@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
--- Basic queue data structure
+-- Basic queue data structure.
 mylib = mylib or {}
 mylib.struct = mylib.struct or {}
 class('Queue', {}, mylib.struct).extends()
@@ -16,13 +16,13 @@ function mylib.struct.Queue:reset()
     self.out = {}
 end
 
--- Push item to back of queue
+-- Push item to back of queue.
 function mylib.struct.Queue:push(item)
     self.last = self.last + 1
     self.out[self.last] = item
 end
 
--- Pop item from the front of the queue
+-- Pop item from the front of the queue.
 function mylib.struct.Queue:pop()
     if (self.first <= self.last) then
         local value = self.out[self.first]
@@ -34,7 +34,7 @@ function mylib.struct.Queue:pop()
     end
 end
 
--- Peek item from the front of the queue without popping
+-- Peek item from the front of the queue without popping.
 function mylib.struct.Queue:peek()
     if (self.first <= self.last) then
         return self.out[self.first]
@@ -43,26 +43,31 @@ function mylib.struct.Queue:peek()
     end
 end
 
--- Return the number of elements currently in the queue
+-- Get the item at index, note that indexing starts at self.first.
+function mylib.struct.Queue:getItemAtIndex(index)
+    return self.out[index]
+end
+
+-- Return the number of elements currently in the queue.
 function mylib.struct.Queue:size()
     return self.last - self.first + 1
 end
 
--- Return iterator function to the queue
+-- Return iterator function to the queue.
 function mylib.struct.Queue:iterator()
     return function ()
         return self:pop()
     end
 end
 
--- Pop queue until its empty
+-- Pop queue until its empty.
 function mylib.struct.Queue:clear()
     while(self:pop()) do
     end
     self:reset()
 end
 
--- Transform contents of the queue into a string
+-- Transform contents of the queue into a string.
 function mylib.struct.Queue:toString()
     txt = ""
     for i = self.first, self.last, 1 do
@@ -71,16 +76,12 @@ function mylib.struct.Queue:toString()
     return txt
 end
 
+-- Return item at index as string, note that indexing starts at self.first.
 function mylib.struct.Queue:itemToString(index)
     return tostring(self:getItemAtIndex(index))
 end
 
-
-function mylib.struct.Queue:getItemAtIndex(index)
-    return self.out[index]
-end
-
--- Remove items from startIndex to endIndex (including) from the queue
+-- Remove items from startIndex to endIndex (including) from the queue.
 function mylib.struct.Queue:remove(startIndex, endIndex)
     -- print("Queue: (" .. self:toString() .. ") remove [" .. startIndex .. ", " .. endIndex .. "]")
     local size = self:size()
@@ -97,11 +98,12 @@ function mylib.struct.Queue:remove(startIndex, endIndex)
     end
 end
 
+-- Check if given item is at the front.
 function mylib.struct.Queue:isFirstItem(item)
     return self:peek() == item
 end
 
--- Return a reference to a random element in the queue
+-- Return a reference to a random element in the queue.
 function mylib.struct.Queue:getRandomItem()
     if (self.first <= self.last) then
         return self:getItemAtIndex(math.random(self.first, self.last))
