@@ -122,14 +122,26 @@ function mylib.struct.LinkedList:remove(item)
     end
 end
 
+function mylib.struct.LinkedList:clear()
+    local item = self.first
+    while item do
+        local tmp = item
+        item:delete()
+        item = tmp.next
+    end
+end
+
 -- Retrieval
 
 function mylib.struct.LinkedList:iterator()
     local currItem = self.first
     return function ()
-        local val = currItem.value
-        currItem = currItem.next
-        return val
+        if (currItem) then
+            local val = currItem.value
+            currItem = currItem.next
+            return val
+        end
+        return nil
     end
 end
 
