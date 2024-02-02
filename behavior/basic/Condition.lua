@@ -2,8 +2,8 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/Behavior"
 
-class('Condition', {}, mylib.behaviour).extends(mylib.behaviour.Behaviour)
+class('Condition', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
-function mylib.behaviour.Condition:init()
-    mylib.behaviour.Condition.super.init(self)
+function mylib.behavior.Condition:init()
+    mylib.behavior.Condition.super.init(self)
 end

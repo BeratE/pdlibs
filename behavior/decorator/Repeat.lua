@@ -3,14 +3,14 @@ import "CoreLibs/object"
 import "pdlibs/behavior/decorator/Decorator"
 
 -- Repeat a given behavior until limit is reached or child returns failure
-class('Repeat', {}, mylib.behaviour).extends(mylib.behaviour.Decorator)
+class('Repeat', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
-function mylib.behaviour.Repeat:init(child, limit)
-    mylib.behaviour.Repeat.super.init(self, child)
+function mylib.behavior.Repeat:init(child, limit)
+    mylib.behavior.Repeat.super.init(self, child)
     self.limit = limit
 end
 
-function mylib.behaviour.Repeat:onUpdate()
+function mylib.behavior.Repeat:onUpdate()
     while true do
         local status = child:update()
         if (status == mylib.behavior.Status.RUNNING) then

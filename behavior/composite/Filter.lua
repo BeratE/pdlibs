@@ -2,9 +2,9 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/composite/Sequence"
 
--- A filter executes a given behaviour only if a condition has been fulfulled
-class('Filter', {}, mylib.behaviour).extends(mylib.behaviour.Sequence)
+-- A filter executes a given behavior only if a condition has been fulfulled
+class('Filter', {}, mylib.behavior).extends(mylib.behavior.Sequence)
 
-function mylib.behaviour.Filter:init(condition, behavior)
-    mylib.behaviour.Filter.super.init(self, {condition, behavior})
+function mylib.behavior.Filter:init(condition, behavior)
+    mylib.behavior.Filter.super.init(self, {condition, behavior})
 end

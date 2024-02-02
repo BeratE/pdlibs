@@ -3,14 +3,14 @@ import "CoreLibs/object"
 import "pdlibs/behavior/Behavior"
 
 -- Decorate for a single child node, process the node on execution
-class('Decorator', {}, mylib.behaviour).extends(mylib.behaviour.Decorator)
+class('Decorator', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
-function mylib.behaviour.Decorator:init(child)
-    mylib.behaviour.Decorator.super.init(self)
+function mylib.behavior.Decorator:init(child)
+    mylib.behavior.Decorator.super.init(self)
     self.child = child
-    assert(child and child:isa(mylib.behaviour.Behavior), "Invalid object passed to behavior Decorator")
+    assert(child and child:isa(mylib.behavior.Behavior), "Invalid object passed to behavior Decorator")
 end
 
-function mylib.behaviour.Decorator:onUpdate()
+function mylib.behavior.Decorator:onUpdate()
     self.child:update()
 end

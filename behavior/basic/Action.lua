@@ -3,10 +3,10 @@ import "CoreLibs/object"
 import "pdlibs/behavior/Behavior"
 
 -- Basic Leaf Node (Task), executes a given function or the own onUpdate method.
-class('Action', {}, mylib.behaviour).extends(mylib.behaviour.Behaviour)
+class('Action', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
-function mylib.behaviour.Action:init(actionFunction)
-    mylib.behaviour.Action.super.init(self)
+function mylib.behavior.Action:init(actionFunction)
+    mylib.behavior.Action.super.init(self)
     -- If an action function is given override the onUpdate behavior
     if (actionFunction) then
         self.actionFunction = actionFunction

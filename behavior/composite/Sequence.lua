@@ -3,18 +3,18 @@ import "CoreLibs/object"
 import "pdlibs/behavior/composite/Composite"
 
 -- (AND) Execute all childs until one has failed or all children succeeded
-class('Sequence', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
+class('Sequence', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
-function mylib.behaviour.Sequence:init(children)
-    mylib.behaviour.Sequence.super.init(self, children)
+function mylib.behavior.Sequence:init(children)
+    mylib.behavior.Sequence.super.init(self, children)
 end
 
-function mylib.behaviour.Sequence:onActivate()
-    mylib.behaviour.Sequence.super.onActivate(self)
+function mylib.behavior.Sequence:onActivate()
+    mylib.behavior.Sequence.super.onActivate(self)
     self.currChildIdx = 1
 end
 
-function mylib.behaviour.Sequence:onUpdate()
+function mylib.behavior.Sequence:onUpdate()
     while true do
         local status = self.children[self.currChildIdx]:update()
         -- If child fails or keeps running do same

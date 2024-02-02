@@ -3,7 +3,7 @@ import "CoreLibs/object"
 import "pdlibs/behavior/composite/Composite"
 
 -- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
-class('Parallel', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
+class('Parallel', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
 -- Success/Fail Policy of executed children in parallel execution
 ParallelPolicy = {
@@ -11,13 +11,13 @@ ParallelPolicy = {
     RequireAll = 2
 }
 
-function mylib.behaviour.Parallel:init(children, successPolicy, failurePolicy)
-    mylib.behaviour.Parallel.super.init(self, children)
+function mylib.behavior.Parallel:init(children, successPolicy, failurePolicy)
+    mylib.behavior.Parallel.super.init(self, children)
     self.successPolicy = successPolicy or ParallelPolicy.RequireAll
     self.failurePolicy = failurePolicy or ParallelPolicy.RequireOne
 end
 
-function mylib.behaviour.Parallel:onUpdate()
+function mylib.behavior.Parallel:onUpdate()
     local successCount = 0
     local failureCount = 0
     for _, child in self.children do
@@ -46,8 +46,8 @@ function mylib.behaviour.Parallel:onUpdate()
     return mylib.behavior.Status.RUNNING
 end
 
-function mylib.behaviour.Parallel:onTerminate(status)
-    mylib.behaviour.Parallel.super.onTerminate(self)
+function mylib.behavior.Parallel:onTerminate(status)
+    mylib.behavior.Parallel.super.onTerminate(self)
     for _, child in ipairs(self.children) do
         child:abort()
     end

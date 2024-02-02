@@ -3,15 +3,15 @@ import "CoreLibs/object"
 import "pdlibs/behavior/Behavior"
 
 -- Behavior tree containing behaviors as nodes 
-class('BehaviorTree', {}, mylib.behaviour).extends()
+class('BehaviorTree', {}, mylib.behavior).extends()
 
-function mylib.behaviour.BehaviorTree:init(rootBehavior)
-    BehaviourTree.super.init(self)
+function mylib.behavior.BehaviorTree:init(rootBehavior)
+    mylib.behavior.BehaviorTree.super.init(self)
     self.root = rootBehavior
-    assert(self.root and self.root:isa(mylib.behaviour.Behavior), "Invalid object passed to BehaviorTree")
+    assert(self.root and self.root:isa(mylib.behavior.Behavior), "Invalid object passed to BehaviorTree")
 end
 
 -- Update root node
-function mylib.behaviour.BehaviorTree:update()
-    return self.root.update()
+function mylib.behavior.BehaviorTree:update()
+    return self.root:update()
 end
