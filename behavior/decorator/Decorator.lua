@@ -3,7 +3,7 @@ import "CoreLibs/object"
 import "pdlibs/behavior/Behavior"
 
 -- Decorate for a single child node, process the node on execution
-class('Decorator', {}, mylib.behavior).extends(mylib.behavior.Decorator)
+class('Decorator', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
 function mylib.behavior.Decorator:init(child)
     mylib.behavior.Decorator.super.init(self)
