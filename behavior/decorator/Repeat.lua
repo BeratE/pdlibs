@@ -15,11 +15,9 @@ function mylib.behaviour.Repeat:onUpdate()
         local status = child:update()
         if (status == BH_STATUS.RUNNING) then
             break;
-        end
-        if (status == BH_STATUS.FAILURE) then
+        elseif (status == BH_STATUS.FAILURE) then
             return BH_STATUS.FAILURE
-        end
-        if (self.limit and self.nTicks >= self.limit) then
+        elseif (self.limit and self.nTicks >= self.limit) then
             return BH_STATUS.SUCCESS
         end
     end
