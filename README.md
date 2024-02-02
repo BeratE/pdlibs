@@ -1,6 +1,6 @@
 # PDLIBS
 Lua libraries used for game development on the Playdate.
-The objects depend heavily on the PlaydateSDK Objects library.
+The data structures on the library depend heavily on the [PlaydateSDK](https://sdk.play.date/) Objects library.
 See the comments in the source files for usage of the classes.
 
 ## State
