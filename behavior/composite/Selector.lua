@@ -27,5 +27,4 @@ function mylib.behavior.Selector:onUpdate()
             return mylib.behavior.Status.FAILURE
         end
     end
-    return mylib.behavior.Status.INVALID
 end

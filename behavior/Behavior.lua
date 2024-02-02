@@ -11,9 +11,9 @@ mylib.behavior.Status = {
     FAILURE = -1,
     SUCCESS =  0,
     -- Execution Hints
-    INVALID   = 1,
-    RUNNING   = 2,
-    ABORTED   = 3,
+    INVALID   = nil,
+    RUNNING   = 1,
+    ABORTED   = 2,
 }
 
 function mylib.behavior.Behavior:init()

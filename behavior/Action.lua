@@ -9,10 +9,7 @@ function mylib.behavior.Action:init(actionFunction)
     mylib.behavior.Action.super.init(self)
     -- If an action function is given override the onUpdate behavior
     if (actionFunction) then
-        self.actionFunction = actionFunction
         assert(type(actionFunction) == "function", "Invalid object passed to Action behavior")
-        self.onUpdate = function (self)
-            self.actionFunction(self)
-        end
+        self.onUpdate = actionFunction
     end
 end

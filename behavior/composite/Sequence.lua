@@ -27,5 +27,4 @@ function mylib.behavior.Sequence:onUpdate()
             return mylib.behavior.Status.SUCCESS
         end
     end
-    return mylib.behavior.Status.INVALID
 end

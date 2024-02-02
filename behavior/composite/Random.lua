@@ -3,6 +3,7 @@ import "CoreLibs/object"
 import "pdlibs/behavior/composite/Composite"
 
 -- Selects a child and executes the behavior at random
+-- Proceed to another random child if execution was successfull
 class('Random', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
 function mylib.behavior.Random:init(children)
@@ -15,5 +16,9 @@ function mylib.behavior.Random:onActivate()
 end
 
 function mylib.behavior.Random:onUpdate()
-    return self.children[self.currChildIdx]:update()
+    local status = self.children[self.currChildIdx]:update()
+    if (status ~= mylib.behavior.Status.RUNNING) then
+        self.currChildIdx = math.random(1, self.nChildren)
+    end
+    return status
 end
