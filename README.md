@@ -14,7 +14,7 @@ Basic modular Behavior Tree implementation based on the Behavior Tree Starter Ki
 [Game AIPro](https://www.gameaipro.com/).
 
 Following is an example of the construction of a BehaviorTree for an Enemy used in [Eclipse](https://berate.itch.io/eclipse)
-``
+```lua
 local behaviorTree = bh.BehaviorTree(
         bh.Sequence({
             bhCollectBlackboard,
@@ -40,4 +40,4 @@ local behaviorTree = bh.BehaviorTree(
             )
         })
     )
-``
+```
