@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/decorator/Decorator"
 
--- Repeat a given behavior until limit is reached or child returns failure
+-- Repeat a given behavior until limit is reached or child returns failure.
 class('Repeat', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
 function mylib.behavior.Repeat:init(child, limit)

@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
--- Abstract node in an BehaviorTree, as interface that can be actived, run and deactived
+-- Abstract node in an BehaviorTree, as interface that can be actived, run and deactived.
 mylib = mylib or {}
 mylib.behavior = mylib.behavior or {}
 class('Behavior', {}, mylib.behavior).extends()
@@ -21,7 +21,22 @@ function mylib.behavior.Behavior:init()
     self.status = mylib.behavior.Status.INVALID
 end
 
--- Wrapper function for updating the behavior
+-- Called once, immediately before first call to update.
+function mylib.behavior.Behavior:onActivate()
+    self.status = mylib.behavior.Status.RUNNING
+    self.nTicks = 0
+end
+
+-- Called once, immediately after last call to update.
+function mylib.behavior.Behavior:onTerminate(status)
+end
+
+-- Update the behavior. Override this.
+function mylib.behavior.Behavior:onUpdate()
+    return mylib.behavior.Status.SUCCESS
+end
+
+-- Wrapper function for updating the behavior. Dont override!
 function mylib.behavior.Behavior:update()
     if (not self:isRunning()) then
         self:onActivate()
@@ -34,7 +49,7 @@ function mylib.behavior.Behavior:update()
     return self.status
 end
 
--- Call to imediately end a running behavior
+-- Call to imediately end a running behavior.
 function mylib.behavior.Behavior:abort()
     if (self.status == mylib.behavior.Status.RUNNING) then
         self.status = mylib.behavior.Status.ABORTED
@@ -42,25 +57,12 @@ function mylib.behavior.Behavior:abort()
     end
 end
 
+-- Check if behavior is currently running.
 function mylib.behavior.Behavior:isRunning()
     return self.status == mylib.behavior.Status.RUNNING
 end
 
+-- Get the status from the last call to update.
 function mylib.behavior.Behavior:getStatus()
     return self.status
-end
-
--- Called once, immediately before first call to update
-function mylib.behavior.Behavior:onActivate()
-    self.status = mylib.behavior.Status.RUNNING
-    self.nTicks = 0
-end
-
--- Called once, immediately after last call to update
-function mylib.behavior.Behavior:onTerminate(status)
-end
-
--- Update the behavior
-function mylib.behavior.Behavior:onUpdate()
-    return mylib.behavior.Status.SUCCESS
 end

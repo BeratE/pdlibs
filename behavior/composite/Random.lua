@@ -2,8 +2,8 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/composite/Composite"
 
--- Selects a child and executes the behavior at random
--- Proceed to another random child if execution was successfull
+--[[ Selects a child and executes the behavior at random,
+ Proceed to another random child if execution was successfull.]]
 class('Random', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
 function mylib.behavior.Random:init(children)

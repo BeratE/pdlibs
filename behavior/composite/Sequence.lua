@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/composite/Composite"
 
--- (AND) Execute all childs until one has failed or all children succeeded
+-- (AND) Execute all childs until one has failed or all children succeeded.
 class('Sequence', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
 function mylib.behavior.Sequence:init(children)

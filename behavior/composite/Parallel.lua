@@ -2,10 +2,10 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/composite/Composite"
 
--- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
+-- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail.
 class('Parallel', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
--- Success/Fail Policy of executed children in parallel execution
+-- Success/Fail Policy of executed children in parallel execution.
 ParallelPolicy = {
     RequireOne = 1,
     RequireAll = 2

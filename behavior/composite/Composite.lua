@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/Behavior"
 
--- Compositie node containing many children
+-- Compositie node containing many children.
 class('Composite', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
 function mylib.behavior.Composite:init(children)
