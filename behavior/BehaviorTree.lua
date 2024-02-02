@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/Behavior"
+import "pdlibs/behavior/Behavior"
 
 -- Behavior tree containing behaviors as nodes 
 class('BehaviorTree', {}, mylib.behaviour).extends()

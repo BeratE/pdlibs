@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/state/State"
+import "pdlibs/state/State"
 
 -- StateMachine used to handle transitions between states.
 class('StateMachine', {}, mylib.state).extends()

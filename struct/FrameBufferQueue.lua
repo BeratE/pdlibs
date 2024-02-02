@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/struct/Queue"
+import "pdlibs/struct/Queue"
 
 class('FrameBufferQueue', {}, mylib.struct).extends(mylib.struct.Queue)
 

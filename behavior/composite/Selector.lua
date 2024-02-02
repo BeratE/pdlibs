@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/composite/Composite"
+import "pdlibs/behavior/composite/Composite"
 
 -- (OR) Execute all children until one has executed successfully or all children fail
 class('Selector', {}, mylib.behaviour).extends(mylib.behaviour.Composite)

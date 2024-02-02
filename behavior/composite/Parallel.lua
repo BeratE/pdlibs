@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/composite/Composite"
+import "pdlibs/behavior/composite/Composite"
 
 -- Allow behaviors to run in parallel and for them to be aborted if some or all of them fail
 class('Parallel', {}, mylib.behaviour).extends(mylib.behaviour.Composite)

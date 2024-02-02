@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/Behavior"
+import "pdlibs/behavior/Behavior"
 
 -- Basic Leaf Node (Task), executes a given function or the own onUpdate method.
 class('Action', {}, mylib.behaviour).extends(mylib.behaviour.Behaviour)

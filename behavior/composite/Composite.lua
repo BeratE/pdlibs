@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/Behavior"
+import "pdlibs/behavior/Behavior"
 
 -- Compositie node containing many children
 class('Composite', {}, mylib.behaviour).extends(mylib.behaviour.Behavior)

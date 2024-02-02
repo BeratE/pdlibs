@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/Behavior"
+import "pdlibs/behavior/Behavior"
 
 class('Condition', {}, mylib.behaviour).extends(mylib.behaviour.Behaviour)
 

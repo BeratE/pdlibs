@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/composite/Parallel"
+import "pdlibs/behavior/composite/Parallel"
 
 -- Monitors a condition and performs the given behavior while its successfull
 class('Monitor', {}, mylib.behaviour).extends(mylib.behaviour.Parallel)

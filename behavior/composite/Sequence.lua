@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "libs/behavior/composite/Composite"
+import "pdlibs/behavior/composite/Composite"
 
 -- (AND) Execute all childs until one has failed or all children succeeded
 class('Sequence', {}, mylib.behaviour).extends(mylib.behaviour.Composite)
