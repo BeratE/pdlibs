@@ -9,11 +9,11 @@ class('Behavior', {}, mylib.behavior).extends()
 mylib.behavior.Status = {
     -- Completion Status
     FAILURE = -1,
-    SUCCESS =  0,
+    SUCCESS =  1,
     -- Execution Hints
     INVALID   = nil,
-    RUNNING   = 1,
-    ABORTED   = 2,
+    RUNNING   = 10,
+    ABORTED   = 11,
 }
 
 function mylib.behavior.Behavior:init()
