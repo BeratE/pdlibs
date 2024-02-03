@@ -7,7 +7,7 @@ class('Chance', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
 function mylib.behavior.Chance:init(percentage, child)
     mylib.behavior.Chance.super.init(self, child)
-    self.percentage = percentage
+    self:setPercentage(percentage)
 end
 
 function mylib.behavior.Chance:onUpdate()
@@ -15,4 +15,9 @@ function mylib.behavior.Chance:onUpdate()
         return mylib.behavior.Status.SUCCESS
     end
     return self.child:update()
+end
+
+function mylib.behavior.Chance:setPercentage(percentage)
+    assert(self.percentage <= 100 and self.percentage >= 0, "Invalid percentage passed to Chance behavior")
+    self.percentage = percentage
 end
