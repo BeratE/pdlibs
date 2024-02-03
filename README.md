@@ -25,7 +25,7 @@ local behaviorTree = bh.BehaviorTree(
         bh.Sequence({ 
             bhCollectBlackboard,
             bhGuessNextEnemyStance,
-             -- A select executes the child behaviours until one succeeds or all fail (OR)
+             -- A Selector executes the child behaviours until one succeeds or all fail (OR)
             bh.Selector({ 
                 -- A Filter only execute second child if first child succeeds
                 bh.Filter(bhShouldBlock, 

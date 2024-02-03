@@ -19,6 +19,7 @@ mylib.behavior.Status = {
 function mylib.behavior.Behavior:init()
     mylib.behavior.Behavior.super.init(self)
     self.status = mylib.behavior.Status.INVALID
+    self.parent = nil -- Keep reference to parent
 end
 
 -- Called once, immediately before first call to update.
@@ -65,4 +66,15 @@ end
 -- Get the status from the last call to update.
 function mylib.behavior.Behavior:getStatus()
     return self.status
+end
+
+-- Set reference to parent node
+function mylib.behavior.Behavior:setParent(parent)
+    assert(parent and parent:isa(mylib.behavior.Behavior), "Invalid parent object passed to Behavior")
+    self.parent = parent
+end
+
+-- Get parent node
+function mylib.behavior.Behavior:getParent()
+    return self.parent
 end

@@ -7,11 +7,16 @@ class('Composite', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
 function mylib.behavior.Composite:init(children)
     mylib.behavior.Composite.super.init(self)
-    self.children = children
-    assert(self.children and type(self.children) == "table", "Invalid children object passed to behavior Composite")
+    self:setChildren(children)
+end
+
+function mylib.behavior.Composite:setChildren(children)
+    assert(children and type(children) == "table", "Composite behavior requires a table of children objects")
     self.nChildren = 0
-    for _, child in pairs(self.children) do
+    for _, child in pairs(children) do
+        assert(child and child:isa(mylib.behavior.Behavior), "Invalid child object passed to Composite behavior")
+        child:setParent(self)
         self.nChildren += 1
-        assert(child and child:isa(mylib.behavior.Behavior), "Invalid child object passed to behavior Composite")
     end
+    self.children = children
 end
