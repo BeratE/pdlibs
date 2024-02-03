@@ -14,6 +14,7 @@ function mylib.behavior.Decorator:onUpdate()
     self.child:update()
 end
 
+
 function mylib.behavior.Decorator:setChild(child)
     assert(child and child:isa(mylib.behavior.Behavior), "Invalid child object passed to behavior Decorator")
     if (self.child ~= nil) then
