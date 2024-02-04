@@ -11,10 +11,8 @@ end
 
 function mylib.behavior.Invert:onUpdate()
     local status = self.child:update()
-    if (status == mylib.behavior.Status.SUCCESS) then
-        return mylib.behavior.Status.FAILURE
-    elseif (status == mylib.behavior.Status.FAILURE) then
-        return mylib.behavior.Status.SUCCESS
+    if (type(status) == "boolean") then
+        status = not status
     end
     return status
 end

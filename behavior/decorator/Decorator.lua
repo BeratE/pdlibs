@@ -23,9 +23,15 @@ function mylib.behavior.Decorator:setChild(child)
         child = mylib.behavior.Action(actionFunction)
     end
     assert(child and child:isa(mylib.behavior.Behavior), "Invalid child object passed to behavior Decorator")
+    child.parent = self.parent
     self.child = child
 end
 
 function mylib.behavior.Decorator:getChild()
     return self.child
+end
+
+function mylib.behavior.Decorator:setParent(parent)
+    self.child.parent = parent
+    self.parent = parent
 end

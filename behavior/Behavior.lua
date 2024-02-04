@@ -8,17 +8,18 @@ class('Behavior', {}, mylib.behavior).extends()
 -- Behavior Status
 mylib.behavior.Status = {
     -- Completion Status
-    FAILURE = -1,
-    SUCCESS =  1,
+    SUCCESS = true,
+    FAILURE = false,
     -- Execution Hints
     INVALID   = nil,
-    RUNNING   = 10,
-    ABORTED   = 11,
+    RUNNING   = 1,
+    ABORTED   = 2,
 }
 
 function mylib.behavior.Behavior:init()
     mylib.behavior.Behavior.super.init(self)
     self.status = mylib.behavior.Status.INVALID
+    self.parent = nil
 end
 
 -- Called once, immediately before first call to update.
@@ -65,4 +66,12 @@ end
 -- Get the status from the last call to update.
 function mylib.behavior.Behavior:getStatus()
     return self.status
+end
+
+function mylib.behavior.Behavior:setParent(parent)
+    self.parent = parent
+end
+
+function mylib.behavior.Behavior:isRoot()
+    return self.parent == nil
 end
