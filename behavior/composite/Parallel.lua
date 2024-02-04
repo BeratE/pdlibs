@@ -6,15 +6,15 @@ import "pdlibs/behavior/composite/Composite"
 class('Parallel', {}, mylib.behavior).extends(mylib.behavior.Composite)
 
 -- Success/Fail Policy of executed children in parallel execution.
-ParallelPolicy = {
-    RequireOne = 1,
-    RequireAll = 2
+mylib.behavior.Parallel.Require = {
+    One = 1,
+    All = 2
 }
 
-function mylib.behavior.Parallel:init(children, successPolicy, failurePolicy)
+function mylib.behavior.Parallel:init(successPolicy, failurePolicy, children)
     mylib.behavior.Parallel.super.init(self, children)
-    self.successPolicy = successPolicy or ParallelPolicy.RequireAll
-    self.failurePolicy = failurePolicy or ParallelPolicy.RequireOne
+    self.successPolicy = successPolicy or mylib.behavior.Parallel.Require.All
+    self.failurePolicy = failurePolicy or mylib.behavior.Parallel.Require.One
 end
 
 function mylib.behavior.Parallel:onUpdate()
@@ -24,21 +24,21 @@ function mylib.behavior.Parallel:onUpdate()
         local status = child:update()
         if (status == mylib.behavior.Status.SUCCESS) then
             successCount += 1
-            if (self.successPolicy == ParallelPolicy.RequireOne) then
+            if (self.successPolicy == mylib.behavior.Parallel.Require.One) then
                 return mylib.behavior.Status.SUCCESS
             end
         end
         if (status == mylib.behavior.Status.FAILURE) then
             failureCount += 1
-            if (self.failurePolicy == ParallelPolicy.RequireOne) then
+            if (self.failurePolicy == mylib.behavior.Parallel.Require.One) then
                 return mylib.behavior.Status.FAILURE
             end
         end
     end
-    if (self.failurePolicy == ParallelPolicy.RequireAll and failureCount == self.nChildren) then
+    if (self.failurePolicy == mylib.behavior.Parallel.Require.All and failureCount == self.nChildren) then
         return mylib.behavior.Status.FAILURE
     end
-    if (self.successPolicy == ParallelPolicy.RequireAll and successCount == self.nChildren) then
+    if (self.successPolicy == mylib.behavior.Parallel.Require.All and successCount == self.nChildren) then
         return mylib.behavior.Status.SUCCESS
     end
     return mylib.behavior.Status.RUNNING
