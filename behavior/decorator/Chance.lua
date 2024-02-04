@@ -18,6 +18,8 @@ function mylib.behavior.Chance:onUpdate()
 end
 
 function mylib.behavior.Chance:setPercentage(percentage)
-    assert(self.percentage <= 100 and self.percentage >= 0, "Invalid percentage passed to Chance behavior")
+    assert(type(percentage) == "number" and 
+            percentage <= 100 and percentage >= 0,
+            "Invalid percentage passed to Chance behavior")
     self.percentage = percentage
 end

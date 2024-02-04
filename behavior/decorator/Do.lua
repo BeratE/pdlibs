@@ -10,9 +10,9 @@ function mylib.behavior.Do:init(child)
 end
 
 function mylib.behavior.Do:onUpdate()
-    self.child:update()
-    if (self.child:getStatus() == mylib.behavior.Status.RUNNING) then
-        return mylib.behavior.Status.RUNNING
+    local status = self.child:update()
+    if (status == mylib.behavior.Status.RUNNING) then
+        return status
     end
     return mylib.behavior.Status.SUCCESS
 end

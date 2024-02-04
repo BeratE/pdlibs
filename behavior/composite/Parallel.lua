@@ -20,17 +20,15 @@ end
 function mylib.behavior.Parallel:onUpdate()
     local successCount = 0
     local failureCount = 0
-    for _, child in self.children do
-        if child:isRunning() then
-            child:update()
-        end
-        if (child:getStatus() == mylib.behavior.Status.SUCCESS) then
+    for i, child in ipairs(self.children) do
+        local status = child:update()
+        if (status == mylib.behavior.Status.SUCCESS) then
             successCount += 1
             if (self.successPolicy == ParallelPolicy.RequireOne) then
                 return mylib.behavior.Status.SUCCESS
             end
         end
-        if (child:getStatus() == mylib.behavior.Status.FAILURE) then
+        if (status == mylib.behavior.Status.FAILURE) then
             failureCount += 1
             if (self.failurePolicy == ParallelPolicy.RequireOne) then
                 return mylib.behavior.Status.FAILURE
