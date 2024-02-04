@@ -12,7 +12,7 @@ end
 
 function mylib.behavior.Chance:onUpdate()
     if (math.random(1, 100) > self.percentage) then
-        return mylib.behavior.Status.SUCCESS
+        return mylib.behavior.Status.FAILURE
     end
     return self.child:update()
 end

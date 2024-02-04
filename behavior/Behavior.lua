@@ -19,6 +19,7 @@ mylib.behavior.Status = {
 function mylib.behavior.Behavior:init()
     mylib.behavior.Behavior.super.init(self)
     self.status = mylib.behavior.Status.INVALID
+    self.heap   = {}  -- Just a heap for putting information
     self.parent = nil -- Keep reference to parent
 end
 
@@ -77,4 +78,23 @@ end
 -- Get parent node
 function mylib.behavior.Behavior:getParent()
     return self.parent
+end
+
+function mylib.behavior.Behavior:isRoot()
+    return self.parent == nil
+end
+
+function mylib.behavior.Behavior:getHeap()
+    return self.heap
+end
+
+-- Put pair (k, v) in heap table
+function mylib.behavior.Behavior:toHeap(k, v)
+    self.heap[k] = v
+    return self.heap
+end
+
+-- Retrieve value with key k from heap table
+function mylib.behavior.Behavior:fromHeap(k)
+    return self.heap[k]
 end

@@ -16,7 +16,7 @@ end
 
 function mylib.behavior.Sequence:onUpdate()
     while true do
-        local status = self.children[self.currChildIdx]:update()
+        local status = self:getCurrentChild():update()
         -- If child fails or keeps running do same
         if (status ~= mylib.behavior.Status.SUCCESS) then
             return status
@@ -27,4 +27,8 @@ function mylib.behavior.Sequence:onUpdate()
             return mylib.behavior.Status.SUCCESS
         end
     end
+end
+
+function mylib.behavior.Sequence:getCurrentChild()
+    return self.children[self.currChildIdx]
 end
