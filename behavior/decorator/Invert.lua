@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/decorator/Decorator"
 
--- Always do action and return success.
+-- Execute child action and return inverse completion status
 class('Invert', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
 function mylib.behavior.Invert:init(child)
