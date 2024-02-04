@@ -5,21 +5,24 @@ import "pdlibs/behavior/decorator/Decorator"
 -- Repeat a given behavior until limit is reached or child returns failure.
 class('Repeat', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
-function mylib.behavior.Repeat:init(child, limit)
+function mylib.behavior.Repeat:init(limit, child)
     mylib.behavior.Repeat.super.init(self, child)
-    self.limit = limit
+    self:setLimit(limit)
 end
 
 function mylib.behavior.Repeat:onUpdate()
-    while true do
-        local status = child:update()
-        if (status == mylib.behavior.Status.RUNNING) then
-            break;
-        elseif (status == mylib.behavior.Status.FAILURE) then
-            return mylib.behavior.Status.FAILURE
-        elseif (self.limit and self.nTicks >= self.limit) then
-            return mylib.behavior.Status.SUCCESS
+    while self.nTicks < self.limit do
+        local status = self.child:update()
+        print(self.nTicks)
+        if (status == mylib.behavior.Status.RUNNING or
+            status == mylib.behavior.Status.FAILURE) then
+            return status
         end
     end
-    return mylib.behavior.Status.RUNNING
+    return mylib.behavior.Status.SUCCESS
+end
+
+function mylib.behavior.Repeat:setLimit(limit)
+    assert(type(limit) == "number", "Illegal limit argument passed to Repeat behavior")
+    self.limit = limit
 end
