@@ -46,3 +46,8 @@ function mylib.state.StateMachine:update()
         self.currentState:onUpdate()
     end
 end
+
+-- Override object isa function
+function mylib.state.StateMachine:isa(class)
+    self.currentState:isa(class)
+end
