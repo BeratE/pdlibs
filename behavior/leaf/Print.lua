@@ -8,7 +8,7 @@ class('Print', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
 function mylib.behavior.Print:init(o)
     self.onUpdate = function ()
-        print(mylib.dump(o))
+        print(o)
         return mylib.behavior.Status.SUCCESS
     end
 end

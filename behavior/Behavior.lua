@@ -3,7 +3,6 @@ import "CoreLibs/object"
 -- Abstract node in an BehaviorTree, as interface that can be actived, run and deactived.
 mylib = mylib or {}
 mylib.behavior = mylib.behavior or {}
-setmetatable(mylib.behavior, {__index = _G})
 class('Behavior', {}, mylib.behavior).extends()
 
 -- Behavior Status
