@@ -4,16 +4,36 @@ The data structures on the library depend heavily on the [PlaydateSDK](https://s
 See the comments in the source files for usage of the classes.
 
 ## State
-Simple Finite State Machine (FSM) object and state manager.
+Simple Finite State Machine (FSM) library, holding the following classes.
+### State
+Abstract class representing a state with an `onEnter()`, an `onUpdate()` and an `onExit()` method. 
+Override these methods in a derived class.
+
+### StateMachine
+A State machine containing a reference to the current and previous state. Offers functionality to update states and manage transitions. See comments in the `StateMachine.lua` on the usage.
 
 ## Struct
-Basic data structures I needed at some point, including `LinkedList` and `Queue`.
+General purpose *data structures*.
+### Queue
+A simple queue data structure.
+
+### TransientQueue
+A queue data structure that holds items for a maximum number of ticks, given in the init argument (default 15).
+Call `tick()` to update the queue.
+
 
 ## Behavior
-Basic modular Behavior Tree implementation based on the Behavior Tree Starter Kit (BTSK) presented in 
-[Game AIPro](https://www.gameaipro.com/).
-See the comments in the base class `Behaviour` and in the derived classes on the usage of the behaviour library.
+Modular behavior tree (BT) implementation.
+See the comments in the base class file `Behaviour.lua` and in the derived classes on the usage of the behaviour library.
 
+
+The behavior library is divided into the following submodules:
+* Leaf
+* Decorator
+* Composite
+* State
+
+### Example Usage
 Following is an example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
 ```lua
 local bhMoveIntoAttackRange = bh.Selector({
