@@ -31,16 +31,17 @@ The behavior library is divided into the following submodules:
 * Leaf
 * Decorator
 * Composite
-* State
+* Stack 
 
 ### Example Usage
 Following is an example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
 ```lua
-local bhMoveIntoAttackRange = bh.Selector({
-    bh.Monitor(
-        bh.Sequence({
-            bh.Invert(bhIsEnemyAttacking),
-            bh.Invert(bhIsInAttackRange),}),
-        bh.Run(bhDoMoveLeft)),
-    bhDoMoveStop})
+local bhMoveIntoAttackRange = 
+    bh.Selector({
+        bh.Monitor(
+            bh.Sequence({
+                bh.Invert(bhIsEnemyAttacking),
+                bh.Invert(bhIsInAttackRange),}),
+            bh.Run(bhDoMoveLeft)),
+        bhDoMoveStop})
 ```
