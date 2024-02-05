@@ -3,7 +3,7 @@ import "CoreLibs/object"
 import "pdlibs/behavior/Behavior"
 
 -- Condition for returning either success or failure.
-class('Condition', {}, mylib.behavior).extends(mylib.behavior.behavior)
+class('Condition', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
 function mylib.behavior.Condition:init(conditionFunction)
     mylib.behavior.Condition.super.init(self)
