@@ -15,7 +15,7 @@ function mylib.behavior.Composite:setChildren(children)
     self.nChildren = 0
     for _, child in pairs(children) do
         assert(child:isa(mylib.behavior.Behavior), "Invalid child object passed to Composite behavior")
-        child.parent = self
+        child:setParent(self)
         self.nChildren += 1
     end
     self.children = children

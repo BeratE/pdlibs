@@ -1,7 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/behavior/Behavior"
-import "pdlibs/behavior/Action"
+import "pdlibs/behavior/leaf/Action"
 
 -- Decorate for a single child node, process the node on execution.
 class('Decorator', {}, mylib.behavior).extends(mylib.behavior.Behavior)
@@ -23,7 +22,7 @@ function mylib.behavior.Decorator:setChild(child)
         child = mylib.behavior.Action(actionFunction)
     end
     assert(child and child:isa(mylib.behavior.Behavior), "Invalid child object passed to behavior Decorator")
-    child.parent = self.parent
+    child:setParent(self)
     self.child = child
 end
 
