@@ -2,7 +2,7 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/leaf/stack/Stack"
 
--- Pop stack and store value in given itemVar
+-- Pop stack, store value in itemVar if given 
 class('Pop', {}, mylib.behavior.stack).extends(mylib.behavior.stack.Stack)
 
 function mylib.behavior.stack.Pop:init(stackVar, itemVar)
@@ -11,6 +11,9 @@ function mylib.behavior.stack.Pop:init(stackVar, itemVar)
 end
 
 function mylib.behavior.stack.Pop:onUpdate()
-    mylib.setVar(self.itemVar, table.remove(mylib.getVar(self.stackVar)))
+    local val = table.remove(mylib.getVar(self.stackVar))
+    if (self.itemVar ~= nil) then
+        mylib.setVar(self.itemVar, val)
+    end
     return mylib.behavior.Status.SUCCESS
 end

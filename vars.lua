@@ -1,7 +1,7 @@
 -- Utility functions to put variables into an extra namespace 
     
 mylib = mylib or {}
-mylib.vars = mylib.vars or {}
+mylib.vars = mylib.vars or {} -- Default environment
 
 -- Declare variable and return value
 function mylib.letVar(name, initVal)

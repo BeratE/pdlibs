@@ -28,7 +28,7 @@ function mylib.behavior.Composite:addChild(child, index)
     table.insert(self.children, index, child)
 end
 
-function mylib.behavior.Compositie:removeChild(index)
+function mylib.behavior.Composite:removeChild(index)
     return table.remove(self.children, index)
 end
 
