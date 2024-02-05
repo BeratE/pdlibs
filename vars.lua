@@ -16,6 +16,6 @@ function mylib.getVar(name)
 end
 
 -- Set variable with name to value
-function mylib.putVar(name, value)
+function mylib.setVar(name, value)
     mylib.vars[name] = value
 end

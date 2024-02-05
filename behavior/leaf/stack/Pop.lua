@@ -11,6 +11,6 @@ function mylib.behavior.stack.Pop:init(stackVar, itemVar)
 end
 
 function mylib.behavior.stack.Pop:onUpdate()
-    mylib.putVar(self.itemVar, table.remove(mylib.getVar(self.stackVar)))
+    mylib.setVar(self.itemVar, table.remove(mylib.getVar(self.stackVar)))
     return mylib.behavior.Status.SUCCESS
 end

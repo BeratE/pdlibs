@@ -12,5 +12,5 @@ function mylib.behavior.stack.Empty:init(stackVar)
 end
 
 function mylib.behavior.stack.Empty:onUpdate()
-    return (next(mylib.getVar(self.stackVar)) == nil)
+    return (next(mylib.getVar(self.stackVar)) == {})
 end
