@@ -35,10 +35,10 @@ function mylib.behavior.Parallel:onUpdate()
             end
         end
     end
-    if (self.failurePolicy == mylib.behavior.Parallel.Require.All and failureCount == self.nChildren) then
+    if (self.failurePolicy == mylib.behavior.Parallel.Require.All and failureCount == #self.children) then
         return mylib.behavior.Status.FAILURE
     end
-    if (self.successPolicy == mylib.behavior.Parallel.Require.All and successCount == self.nChildren) then
+    if (self.successPolicy == mylib.behavior.Parallel.Require.All and successCount == #self.children) then
         return mylib.behavior.Status.SUCCESS
     end
     return mylib.behavior.Status.RUNNING

@@ -14,7 +14,6 @@ function mylib.behavior.Decorator:onUpdate()
     self.child:update()
 end
 
-
 function mylib.behavior.Decorator:setChild(child)
     -- Wrap child if type of child is a function
     if (type(child) == "function") then

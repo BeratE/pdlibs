@@ -25,7 +25,7 @@ function mylib.behavior.Random:onUpdate()
 end
 
 function mylib.behavior.Random:selectNewChild()
-    self.currChildIdx = math.random(1, self.nChildren)
+    self.currChildIdx = math.random(1, #self.children)
     --print("Random behavior select child ".. self.currChildIdx)
 end
 

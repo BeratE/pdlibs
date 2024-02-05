@@ -23,7 +23,7 @@ function mylib.behavior.Sequence:onUpdate()
         end
         self.currChildIdx += 1
         -- Until end of children are reached
-        if (self.currChildIdx > self.nChildren) then
+        if (self.currChildIdx > #self.children) then
             return mylib.behavior.Status.SUCCESS
         end
     end
