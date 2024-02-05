@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/behavior/stack/Stack"
+import "pdlibs/behavior/leaf/stack/Stack"
 
 local next = next -- constant time indexing to next primitive
 

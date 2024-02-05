@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/behavior/stack/Stack"
+import "pdlibs/behavior/leaf/stack/Stack"
 
 -- Push given item onto the given stack
 class('Push', {}, mylib.behavior.stack).extends(mylib.behavior.stack.Stack)

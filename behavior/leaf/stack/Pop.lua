@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/behavior/stack/Stack"
+import "pdlibs/behavior/leaf/stack/Stack"
 
 -- Pop stack and store value in given itemVar
 class('Pop', {}, mylib.behavior.stack).extends(mylib.behavior.stack.Stack)
