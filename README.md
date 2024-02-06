@@ -80,7 +80,9 @@ Alternatively, you can call `setVarEnvGlobal()` before the declaration of any no
 The body of the action function can then be written as: </br>
 `print(foo .. " " .. bar)`.
 
-> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables.
+> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. 
+
+> **_NOTE:_** In the above example, the node `Print(mylib.getVar("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate deferred execution.
 
 
 # State

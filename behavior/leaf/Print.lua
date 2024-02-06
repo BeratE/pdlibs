@@ -8,7 +8,13 @@ class('Print', {}, mylib.behavior).extends(mylib.behavior.Behavior)
 
 function mylib.behavior.Print:init(o)
     self.onUpdate = function ()
-        print(o)
+        if (type(o) == "function") then
+            print(o())
+        elseif (type(o) == "table") then
+            print(mylib.dump(o))
+        else
+            print(o)
+        end
         return mylib.behavior.Status.SUCCESS
     end
 end
