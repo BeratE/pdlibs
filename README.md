@@ -31,6 +31,7 @@ Decorator nodes modulate the behavior of their single child node.
 * `Invert(b)` Invert completion status of given behavior.
 * `Chance(p, b)` Execute behavior only in `p` percent of the time.
 * `Repeat(limit, b)` Repeat behavior until fail or limit reached.
+* `Delay(delay, b)` Execute behavior after `delay` milliseconds.
 
 ### Composite
 * `Sequence({b1, b2, ..})` (AND) Execute children sequentially until one fails.
@@ -38,7 +39,7 @@ Decorator nodes modulate the behavior of their single child node.
 * `Parallel(sp, fp, {b1, b2, ..})` Update all behaviors with given policy.
 * `Filter(b1, b2)` Execute `b2` only if `b1` succeeds (Special `Sequence`).
 * `Monitor(b1, b2)` Execute `b2` until `b1` fails (Special `Parallel`).
-* `Random({b1, b2, ..})` Select random child and execute until it succeeds..
+* `Random({b1, b2, ..})` Select random child and execute until it succeeds.
 
 ### Example Usage
 Following is an example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
@@ -74,6 +75,12 @@ local bhTestStack =
 ```
 
 You can access variables using the `getVar(varName)` and `setVar(varName, value)` functions.
+
+Alternatively, you can call `setVarEnvGlobal()` before the declaration of any node to declare `foo` and `bar` to global variables.
+The body of the action function can then be written as: </br>
+`print(foo .. " " .. bar)`.
+
+> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables.
 
 
 # State
