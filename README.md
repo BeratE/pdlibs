@@ -6,12 +6,14 @@ See the comments in the source files for usage of the classes.
 
 # Behavior
 Modular behavior tree (BT) implementation.
-See the comments in the `Behaviour.lua` base class file and in the derived class files on the usage of the behaviour library.
 
 The basic functionality is as follows. Each node calls `onUpdate()` when updated, which returns either a completion status (`SUCCESS`/`FAILURE`) or an execution hint (`INVALID`, `RUNNING`, or `ABORTED`). 
-Deriving classes should override the `onUpdate()` method and, if necessary, the `onActivate()` and `onTerminate()` functions, which are called once before the first and after the last call to `onUpdate()` respectively.
+Deriving classes should override the `onUpdate()` method and, if necessary, the `onActivate()` and `onTerminate()` functions, which are called once before the first and after the last call to `onUpdate()` respectively. 
+The `onAbort()` function can be overridden to handle an aborted behavior.
+The basic API of a node consists of the functions `update()`, `abort()` and `getStatus()`.
+See the comments in the `Behaviour.lua` base class file and in the derived class files on the usage of the behaviour library.
 
-The behavior library contains the following (possibly incomplete) list of nodes.
+The behavior library contains the following list of nodes.
 
 ### Leaf
 Leaf nodes in the behavior tree
@@ -81,6 +83,9 @@ You can access variables using the `getVar(varName)` and `setVar(varName, value)
 Alternatively, you can call `setVarEnvGlobal()` before the declaration of any node to declare `foo` and `bar` to global variables.
 The body of the action function can then be written as: </br>
 `print(foo .. " " .. bar)`.
+
+Note that all behavior trees share the same default namespace for variables. 
+This makes it easy to share data or pass messages between different behavior trees. 
 
 > **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. 
 
