@@ -7,7 +7,7 @@ import "pdlibs/behavior/composite/Selector"
 class('ActiveSelector', {}, mylib.behavior).extends(mylib.behavior.Selector)
 
 function mylib.behavior.ActiveSelector:init(children)
-    mylib.behavior.Selector.super.init(self, children)
+    mylib.behavior.ActiveSelector.super.init(self, children)
 end
 
 function mylib.behavior.ActiveSelector:onActivate()
@@ -17,7 +17,7 @@ end
 
 function mylib.behavior.ActiveSelector:onUpdate()
     self.currChildIdx = 1
-    local status = mylib.behavior.ActiveSelector.super:onUpdate(self)
+    local status = mylib.behavior.ActiveSelector.super.onUpdate(self)
     if (self.prevChildIdx > self.currChildIdx) then
         self.children[self.prevChildIdx]:abort()
     end
