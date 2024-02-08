@@ -37,6 +37,11 @@ function mylib.behavior.Behavior:onUpdate()
     return mylib.behavior.Status.SUCCESS
 end
 
+-- Called when the behavior is aborted. Override if necessary.
+function mylib.behavior.Behavior:onAbort()
+    self:onTerminate()
+end
+
 -- Wrapper function for updating the behavior. Dont override!
 function mylib.behavior.Behavior:update()
     if (not self:isRunning()) then
@@ -54,7 +59,7 @@ end
 function mylib.behavior.Behavior:abort()
     if (self.status == mylib.behavior.Status.RUNNING) then
         self.status = mylib.behavior.Status.ABORTED
-        self:onTerminate()
+        self:onAbort()
     end
 end
 
