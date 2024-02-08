@@ -26,20 +26,22 @@ Leaf nodes in the behavior tree
 
 ### Decorator
 Decorator nodes modulate the behavior of their single child node.
-* `Do(b)` Execute behavior `b` and always return `SUCCESS`
-* `Run(b)` Execute behavior and always return `RUNNING`
+* `Succeed(b)` Execute behavior `b` and always return `SUCCESS`.
+* `Succeed(b)` Execute behavior `b` and always return `FAILURE`.
+* `Run(b)` Execute behavior and always return `RUNNING`.
 * `Invert(b)` Invert completion status of given behavior.
 * `Chance(p, b)` Execute behavior only in `p` percent of the time.
 * `Repeat(limit, b)` Repeat behavior until fail or limit reached.
 * `Delay(delay, b)` Execute behavior after `delay` milliseconds.
 
 ### Composite
-* `Sequence({b1, b2, ..})` (AND) Execute children sequentially until one fails.
 * `Selector({b1, b2, ..})` (OR) Execute children sequentially until one succeeds.
+* `Sequence({b1, b2, ..})` (AND) Execute children sequentially until one fails.
 * `Parallel(sp, fp, {b1, b2, ..})` Update all behaviors with given policy.
 * `Filter(b1, b2)` Execute `b2` only if `b1` succeeds (Special `Sequence`).
 * `Monitor(b1, b2)` Execute `b2` until `b1` fails (Special `Parallel`).
 * `Random({b1, b2, ..})` Select random child and execute until it succeeds.
+* `ActiveSelector({m1, m2, ..})` Aborts low priority children in favor of high-priority ones.
 
 ### Example Usage
 Following is an example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)

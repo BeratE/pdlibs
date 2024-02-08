@@ -2,9 +2,9 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/composite/Selector"
 
---[[ An active selector orders children by descending priority,
- and aborts a running child if the preconditions of a child with higher priority are met. 
- The active selecteor requires Monitor nodes as children. --]]
+--[[ An active selector aborts a currently running child with low priority
+ in favor of a child with higher priority. Children are prioritized in descending order.
+ The active selector requires Monitor nodes as children. --]]
 class('ActiveSelector', {}, mylib.behavior).extends(mylib.behavior.Selector)
 
 function mylib.behavior.ActiveSelector:init(children)
