@@ -3,8 +3,7 @@ import "CoreLibs/object"
 import "pdlibs/behavior/composite/Selector"
 
 --[[ An active selector aborts a currently running child with low priority
- in favor of a child with higher priority. Children are prioritized in descending order.
- The active selector requires Monitor nodes as children. --]]
+ in favor of a child with higher priority. Children are prioritized in descending order. --]]
 class('ActiveSelector', {}, mylib.behavior).extends(mylib.behavior.Selector)
 
 function mylib.behavior.ActiveSelector:init(children)
@@ -24,9 +23,4 @@ function mylib.behavior.ActiveSelector:onUpdate()
     end
     self.prevChildIdx = self.currChildIdx
     return status
-end
-
-function mylib.behavior.ActiveSelector:addChild(child, index)
-    assert(child:isa(mylib.behavior.Monitor), "Invalid child object passed to ActiveSelector behavior")
-    mylib.behavior.ActiveSelector.super.addChild(child, index)
 end

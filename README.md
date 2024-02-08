@@ -41,7 +41,7 @@ Decorator nodes modulate the behavior of their single child node.
 * `Filter(b1, b2)` Execute `b2` only if `b1` succeeds (Special `Sequence`).
 * `Monitor(b1, b2)` Execute `b2` until `b1` fails (Special `Parallel`).
 * `Random({b1, b2, ..})` Select random child and execute until it succeeds.
-* `ActiveSelector({m1, m2, ..})` Aborts low priority children in favor of high-priority ones.
+* `ActiveSelector({b1, b2, ..})` Aborts low priority children in favor of high-priority ones.
 
 ### Example Usage
 Following is an example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
