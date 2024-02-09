@@ -5,9 +5,19 @@ mylib = mylib or {}
 mylib.struct = mylib.struct or {}
 class('Queue', {}, mylib.struct).extends()
 
-function mylib.struct.Queue:init()
+function mylib.struct.Queue:init(list)
     mylib.struct.Queue.super.init(self)
     self:reset()
+    if (list) then
+        self:fromList(list)
+    end
+end
+
+-- Initialize the queue from a given list
+function mylib.struct.Queue:fromList(list)
+    self.out = list
+    self.first = 1
+    self.last = #list
 end
 
 function mylib.struct.Queue:reset()
