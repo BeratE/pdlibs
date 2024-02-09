@@ -36,5 +36,6 @@ end
 
 -- Return item at index as string, note that indexing starts at self.first.
 function mylib.struct.TransientQueue:_getItemAtRawIndex(index)
-    return self.out[index][1]
+    local item = mylib.struct.TransientQueue.super._getItemAtRawIndex(self, index)
+    if (item) then return item[1] end
 end

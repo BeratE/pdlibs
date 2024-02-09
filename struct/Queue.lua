@@ -14,7 +14,7 @@ end
  NOTE: the list must be consecutively integer indexed.]]
 function mylib.struct.Queue:set(list)
     self.out = list or {}
-    self.last = #list
+    self.last = #self.out
     self.first = 1
 end
 
@@ -60,10 +60,16 @@ function mylib.struct.Queue:remove(startIndex, endIndex)
     end
 end
 
-function mylib.struct.Queue:unpack(startIndex, endIndex)
+function mylib.struct.Queue:sub(startIndex, endIndex)
     startIndex = (startIndex or 1) - (self.first - 1)
     endIndex = (endIndex or self:size()) - (self.first - 1)
-    return table.unpack(self.out, startIndex, endIndex)
+    if (startIndex <= endIndex) then
+        local t = {}
+        for i = startIndex, endIndex do
+            table.insert(t, self:_getItemAtRawIndex(i))
+        end
+        return t
+    end
 end
 
 -- Return the number of elements currently in the queue.
@@ -87,8 +93,8 @@ end
 -- Transform contents of the queue into a string.
 function mylib.struct.Queue:toString()
     txt = ""
-    for i = self.first, self.last, 1 do
-        txt = txt .. tostring(self:_getItemAtRawIndex(index)) .. " "
+    for i = self.first, self.last do
+        txt = txt .. self:_getItemAtRawIndexToString(i) .. " "
     end
     return txt
 end
@@ -104,7 +110,12 @@ end
 
 -- Helper functions
 
--- Get the item at raw index , note that indexing starts at self.first.
 function mylib.struct.Queue:_getItemAtRawIndex(index)
-    return self.out[index]
+    if(index >= self.first and index <= self.last) then
+        return self.out[index]
+    end
+end
+
+function mylib.struct.Queue:_getItemAtRawIndexToString(index)
+    return tostring(self:_getItemAtRawIndex(index))
 end
