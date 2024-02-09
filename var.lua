@@ -1,5 +1,7 @@
 -- Utility functions to put variables into an extra namespace 
 
+import "mylib/string"
+
 mylib = mylib or {}
 
 mylib.var = mylib.var or {}              -- Default environment
@@ -34,6 +36,16 @@ function mylib.var.namespace(namespace)
         mylib.varCurrEnv[namespace] = {}
     end
     return mylib.varCurrEnv[namespace]
+end
+
+--[[ Generates a new namespace in the current enviroment, 
+  returns namespace name, namespace --]]
+function mylib.var.genNewNamespace()
+    local ns = "ns" .. mylib.string.random(6)
+    while (mylib.varCurrEnv[ns] ~= nil) do
+        ns = "ns" .. mylib.string.random(6)
+    end
+    return ns, mylib.var.namespace(ns)
 end
 
 -- Set current variable environment to global
