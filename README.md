@@ -64,7 +64,7 @@ The following behavior tree shows the usage of Stack nodes.
 The first two nodes in the sequence push two values into `mystack`. 
 The sequence then pops the values into the variables `foo` and `bar`.
 Finally, the action node prints the string `"20 10"`
-  
+
 ```lua
 local bhTestStack = 
     bh.Sequence({
@@ -73,14 +73,14 @@ local bhTestStack =
         bh.stack.Pop("mystack", "foo"),
         bh.stack.Pop("mystack", "bar"),
         bh.Action(function ()
-            print(mylib.getVar("foo") .. " " .. mylib.getVar("bar"))
+            print(mylib.var.get("foo") .. " " .. mylib.var.get("bar"))
         end)
     })
 ```
 
-You can access variables using the `getVar(varName)` and `setVar(varName, value)` functions.
+You can access variables using the `var.get(varName)` and `var.set(varName, value)` functions.
 
-Alternatively, you can call `setVarEnvGlobal()` before the declaration of any node to declare `foo` and `bar` to global variables.
+Alternatively, you can call `var.setEnvGlobal()` before the declaration of any node to declare `foo` and `bar` to global variables.
 The body of the action function can then be written as: </br>
 `print(foo .. " " .. bar)`.
 
@@ -89,7 +89,7 @@ This makes it easy to share data or pass messages between different behavior tre
 
 > **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. 
 
-> **_NOTE:_** In the above example, the node `Print(mylib.getVar("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate deferred execution.
+> **_NOTE:_** In the above example, the node `Print(mylib.var.get("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate deferred execution.
 
 
 # State
