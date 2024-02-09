@@ -1,14 +1,17 @@
 # PDLIBS
-Lua libraries used for game development on the Playdate.
+Lua libraries used for game development on the Playdate.</br>
 The data structures on the library depend heavily on the [PlaydateSDK](https://sdk.play.date/) Objects library.
+
 See the comments in the source files for usage of the classes.
 
 # Usage
-Check out the repository in your `source` folder and `import` the required file.
-To avoid importing all files seperately, you can just import the `all.lua` file in a submodule
-to include all corresponding files in the submodule.
+Check out the repository in your `source` folder and `import` the required file. 
 
-# Behavior
+To avoid importing all files seperately, you can just import the `all.lua` file from a module directory to include all corresponding files in the submodule.
+
+# Modules
+
+## Behavior
 Modular behavior tree (BT) implementation.
 
 The basic functionality is as follows. Each node calls `onUpdate()` when updated, which returns either a completion status (`SUCCESS`/`FAILURE`) or an execution hint (`INVALID`, `RUNNING`, or `ABORTED`). 
@@ -19,28 +22,34 @@ See the comments in the `Behaviour.lua` base class file and in the derived class
 
 The behavior library contains the following list of nodes.
 
-### Leaf
-Leaf nodes in the behavior tree
+### Leaf nodes
+Basic Leaf nodes in the behavior tree
 * `Action(f)` Execute given function `f`.
 * `Condition(f)` Same as above, but any status other than `SUCCESS` will fail.
-* `Print(s)` Print `s` to console output. Useful for debugging. 
-* `stack.Push(stack, val)` Push `val` onto the stack named `stack`.
-* `stack.Pop(stack, var)` Pop `stack` and write to `var`, if given.
-* `stack.Empty(stack)` Return `SUCCESS` if `stack` is empty, fail otherwise. 
-* `var.Set(var, val)` Set variable named `var` to value `val`.
-* `var.IsNil(var)` Return `SUCCESS` if `var` is null, fail otherwise.
+* `Print(s)` Print `s` to console output. Useful for debugging. Can be function.
 
-### Decorator
+### Special leaf nodes
+Stack and variable operations. 
+Take optional `ns` namespace string.
+See `var.lua` on the usage of variables.
+
+* `stack.Push(stack, val, ns)` Push `val` onto the stack named `stack`.
+* `stack.Pop(stack, var, ns)` Pop `stack` and write to `var`, if given.
+* `stack.Empty(stack, ns)` Return `SUCCESS` if `stack` is empty, fail otherwise. 
+* `var.Set(var, val, ns)` Set variable named `var` to value `val`.
+* `var.IsNil(var, ns)` Return `SUCCESS` if `var` is null, fail otherwise.
+
+### Decorator nodes
 Decorator nodes modulate the behavior of their single child node.
 * `Succeed(b)` Execute behavior `b` and always return `SUCCESS`.
-* `Succeed(b)` Execute behavior `b` and always return `FAILURE`.
+* `Fail(b)` Execute behavior `b` and always return `FAILURE`.
 * `Run(b)` Execute behavior and always return `RUNNING`.
 * `Invert(b)` Invert completion status of given behavior.
 * `Chance(p, b)` Execute behavior only in `p` percent of the time.
 * `Repeat(limit, b)` Repeat behavior until fail or limit reached.
-* `Delay(delay, b)` Execute behavior after `delay` milliseconds.
+* `Delay(delay, b)` Execute behavior only after `delay` milliseconds.
 
-### Composite
+### Composite nodes
 * `Selector({b1, b2, ..})` (OR) Execute children sequentially until one succeeds.
 * `Sequence({b1, b2, ..})` (AND) Execute children sequentially until one fails.
 * `Parallel(sp, fp, {b1, b2, ..})` Update all behaviors with given policy.
@@ -50,7 +59,7 @@ Decorator nodes modulate the behavior of their single child node.
 * `ActiveSelector({b1, b2, ..})` Aborts low priority children in favor of high-priority ones.
 
 ### Example Usage
-Following is an example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
+Following is a simplified example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
 ```lua
 local <const> bh = mylib.behavior
 -- ...
@@ -59,7 +68,7 @@ local bhMoveIntoAttackRange =
         bh.Monitor(
             bh.Sequence({
                 bh.Invert(bhIsEnemyAttacking),
-                bh.Invert(bhIsInAttackRange),}),
+                bh.Invert(bhIsInAttackRange)}),
             bh.Run(bhDoMoveLeft)),
         bhDoMoveStop})
 ```
@@ -82,24 +91,22 @@ local bhTestStack =
     })
 ```
 
-You can access variables using the `var.get(varName)` and `var.set(varName, value)` functions.
+You can access variables using the `var.get(varName, ns)` and `var.set(varName, value, ns)` functions. 
+The third namespace parameter is optional.
 
 Alternatively, you can call `var.setEnvGlobal()` before the declaration of any node to declare `foo` and `bar` to global variables.
-The body of the action function can then be written as: </br>
-`print(foo .. " " .. bar)`.
+The body of the action function then becomes `print(foo .. " " .. bar)`.
+
+> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. In the above example, the node `Print(mylib.var.get("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate *deferred execution*.
 
 Note that all behavior trees share the same default namespace for variables. 
-This makes it easy to share data or pass messages between different behavior trees. 
-
-> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. 
-
-> **_NOTE:_** In the above example, the node `Print(mylib.var.get("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate deferred execution.
+This makes it easy to share data or pass messages between different behavior trees. You can generate a random namespace using the function `var.ns.generate()`, which returns the namespace name you can pass on as third parameter to following library functions.
 
 
-# N-Grams
+## N-Grams
 TODO
 
-# State
+## State
 Simple Finite State Machine (FSM) library, holding the following classes.
 ### State
 Abstract class representing a state with an `onEnter()`, an `onUpdate()` and an `onExit()` method. 
@@ -110,7 +117,7 @@ A State machine containing a reference to the current and previous state.
 Offers functionality to update states and manage transitions. See comments in the `StateMachine.lua` file on the usage.
 
 
-# Struct
+## Struct
 General purpose *data structures*.
 ### Queue
 A simple queue data structure. Avoids the use of expensive `table.insert` and `table.remove` functions.
