@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/util/debug/var"
+import "pdlibs/util/var"
 import "pdlibs/behavior/Behavior"
 
 -- Set given variable to value
