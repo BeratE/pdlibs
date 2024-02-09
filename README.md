@@ -3,6 +3,10 @@ Lua libraries used for game development on the Playdate.
 The data structures on the library depend heavily on the [PlaydateSDK](https://sdk.play.date/) Objects library.
 See the comments in the source files for usage of the classes.
 
+# Usage
+Check out the repository in your `source` folder and `import` the required file.
+To avoid importing all files seperately, you can just import the `all.lua` file in a submodule
+to include all corresponding files in the submodule.
 
 # Behavior
 Modular behavior tree (BT) implementation.
