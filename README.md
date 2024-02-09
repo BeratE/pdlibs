@@ -92,6 +92,9 @@ This makes it easy to share data or pass messages between different behavior tre
 > **_NOTE:_** In the above example, the node `Print(mylib.var.get("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate deferred execution.
 
 
+# N-Grams
+TODO
+
 # State
 Simple Finite State Machine (FSM) library, holding the following classes.
 ### State
@@ -107,6 +110,9 @@ Offers functionality to update states and manage transitions. See comments in th
 General purpose *data structures*.
 ### Queue
 A simple queue data structure. Avoids the use of expensive `table.insert` and `table.remove` functions.
+
+### BoundedQueue
+Same as `Queue`, but stores a maximum number of item and pops off last item if bound is reached and a new item is pushed.
 
 ### TransientQueue
 A queue data structure that holds items for a maximum number of ticks, given in the init argument (default 15).

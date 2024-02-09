@@ -43,9 +43,21 @@ function mylib.struct.Queue:peek()
     end
 end
 
--- Get the item at index, note that indexing starts at self.first.
-function mylib.struct.Queue:getItemAtIndex(index)
-    return self.out[index]
+-- Remove items from startIndex to endIndex (including) from the queue.
+function mylib.struct.Queue:remove(startIndex, endIndex)
+    -- print("Queue: (" .. self:toString() .. ") remove [" .. startIndex .. ", " .. endIndex .. "]")
+    local size = self:size()
+    if (endIndex <= size) then
+        for i = 1, startIndex-1 do
+            mylib.struct.Queue.push(self, mylib.struct.Queue.pop(self))
+        end
+        for i = startIndex, endIndex do
+            mylib.struct.Queue.pop(self)
+        end
+        for i = endIndex +1, size do
+            mylib.struct.Queue.push(self, mylib.struct.Queue.pop(self))
+        end
+    end
 end
 
 -- Return the number of elements currently in the queue.
@@ -78,24 +90,7 @@ end
 
 -- Return item at index as string, note that indexing starts at self.first.
 function mylib.struct.Queue:itemToString(index)
-    return tostring(self:getItemAtIndex(index))
-end
-
--- Remove items from startIndex to endIndex (including) from the queue.
-function mylib.struct.Queue:remove(startIndex, endIndex)
-    -- print("Queue: (" .. self:toString() .. ") remove [" .. startIndex .. ", " .. endIndex .. "]")
-    local size = self:size()
-    if (endIndex <= size) then
-        for i = 1, startIndex-1 do
-            mylib.struct.Queue.push(self, mylib.struct.Queue.pop(self))
-        end
-        for i = startIndex, endIndex do
-            mylib.struct.Queue.pop(self)
-        end
-        for i = endIndex +1, size do
-            mylib.struct.Queue.push(self, mylib.struct.Queue.pop(self))
-        end
-    end
+    return tostring(self:getItemAtRawIndex(index))
 end
 
 -- Check if given item is at the front.
@@ -106,6 +101,20 @@ end
 -- Return a reference to a random element in the queue.
 function mylib.struct.Queue:getRandomItem()
     if (self.first <= self.last) then
-        return self:getItemAtIndex(math.random(self.first, self.last))
+        return self:getItemAtRawIndex(math.random(self.first, self.last))
     end
+end
+
+-- Get the item at index, note that indexing starts at self.first.
+function mylib.struct.Queue:getItemAtRawIndex(index)
+    return self.out[index]
+end
+
+-- Transform the queue into a basic list table
+function mylib.struct.Queue:toList()
+    list = {}
+    for i = self.first, self.last do
+        table.insert(list, self:getItemAtRawIndex(i))
+    end
+    return i
 end

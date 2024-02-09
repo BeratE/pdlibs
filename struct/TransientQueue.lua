@@ -28,6 +28,6 @@ function mylib.struct.TransientQueue:push(item)
 end
 
 -- Return item at index as string, note that indexing starts at self.first.
-function mylib.struct.TransientQueue:getItemAtIndex(index)
+function mylib.struct.TransientQueue:getItemAtRawIndex(index)
     return self.out[index][1]
 end
