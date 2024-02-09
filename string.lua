@@ -3,12 +3,16 @@
 mylib = mylib or {}
 mylib.string = mylib.string or {}
 
-local charset <const> = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+local alphanumerical = {}  do -- [0-9a-zA-Z]
+    for c = 48, 57  do table.insert(alphanumerical, string.char(c)) end --[0-9]
+    for c = 65, 90  do table.insert(alphanumerical, string.char(c)) end --[a-z]
+    for c = 97, 122 do table.insert(alphanumerical, string.char(c)) end --[A-Z]
+end
 
-function mylib.string.random(length)
-    if (length > 0) then
-        local c = charset:sub(math.random(#charset), 1)
-        return mylib.string.random(length-1) .. c
-    end
-    return ""
+-- Generate random string with given length, use given optional charset.
+function mylib.string.random(length, charset)
+    if (not length or length <= 0) then return "" end
+    charset = charset or alphanumerical
+    local c = charset[math.random(#charset-1)]
+    return c .. mylib.string.random(length-1)
 end
