@@ -7,9 +7,10 @@ import "pdlibs/behavior/Behavior"
 mylib.behavior.stack = mylib.behavior.stack or {}
 class('Stack', {}, mylib.behavior.stack).extends(mylib.behavior.Behavior)
 
-function mylib.behavior.stack.Stack:init(stackVar)
+function mylib.behavior.stack.Stack:init(stackVar, namespace)
     mylib.behavior.stack.Stack.super.init(self)
-    mylib.var.let(stackVar, {})
+    mylib.var.let(stackVar, {}, namespace)
+    self.namespace = namespace
     self.stackVar = stackVar
 end
 
