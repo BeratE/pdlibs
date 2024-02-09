@@ -24,12 +24,12 @@ end
 
 -- Get the variable with the name (in namespace)
 function mylib.var.get(name, namespace)
-    return mylib.var.namespace(namespace)[name]
+    return mylib.var.ns.get(namespace)[name]
 end
 
 -- Set variable with name (in namespace) to value
 function mylib.var.set(name, value, namespace)
-    mylib.var.namespace(namespace)[name] = value
+    mylib.var.ns.get(namespace)[name] = value
 end
 
 -- [[ Environment ]]
