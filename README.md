@@ -128,3 +128,6 @@ Same as `Queue`, but stores a maximum number of item and pops off last item if b
 ### TransientQueue
 A queue data structure that holds items for a maximum number of ticks, given in the init argument (default 15).
 Call `tick()` to update the queue and discard items older than maximum number of ticks.
+
+# License
+This project is released under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html).
