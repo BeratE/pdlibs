@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/vars"
+import "pdlibs/var"
 import "pdlibs/behavior/Behavior"
 
 -- Check if variable is null
@@ -13,5 +13,5 @@ function mylib.behavior.var.IsNil:init(varName)
 end
 
 function mylib.behavior.var.IsNil:onUpdate()
-    return mylib.getVar(varName) ~= nil
+    return mylib.var.get(varName) ~= nil
 end

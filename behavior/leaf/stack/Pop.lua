@@ -11,9 +11,9 @@ function mylib.behavior.stack.Pop:init(stackVar, itemVar)
 end
 
 function mylib.behavior.stack.Pop:onUpdate()
-    local val = table.remove(mylib.getVar(self.stackVar))
+    local val = table.remove(mylib.var.get(self.stackVar))
     if (self.itemVar ~= nil) then
-        mylib.setVar(self.itemVar, val)
+        mylib.var.set(self.itemVar, val)
     end
     return mylib.behavior.Status.SUCCESS
 end

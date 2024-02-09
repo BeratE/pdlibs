@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/vars"
+import "pdlibs/var"
 import "pdlibs/behavior/Behavior"
 
 -- Set given variable to value
@@ -14,6 +14,6 @@ function mylib.behavior.var.Set:init(varName, value)
 end
 
 function mylib.behavior.var.Set:onUpdate()
-    mylib.setVar(self.varName, self.value)
+    mylib.var.set(self.varName, self.value)
     return mylib.behavior.Status.SUCCESS
 end

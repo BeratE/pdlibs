@@ -11,6 +11,6 @@ function mylib.behavior.stack.Push:init(stackVar, itemValue)
 end
 
 function mylib.behavior.stack.Push:onUpdate()
-    table.insert(mylib.getVar(self.stackVar), self.itemValue)
+    table.insert(mylib.var.get(self.stackVar), self.itemValue)
     return mylib.behavior.Status.SUCCESS
 end
