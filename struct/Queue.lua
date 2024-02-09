@@ -7,25 +7,15 @@ class('Queue', {}, mylib.struct).extends()
 
 function mylib.struct.Queue:init(list)
     mylib.struct.Queue.super.init(self)
-    self:reset()
-    if (list) then
-        self:fromList(list)
-    end
+    self:set(list)
 end
 
 --[[ Initialize the queue from a given list.
  NOTE: the list must be consecutively integer indexed.]]
-function mylib.struct.Queue:fromList(list)
-    assert(type(list) == "table", "Queue requires table when initializing from list")
-    self.out = list
-    self.first = 1
+function mylib.struct.Queue:set(list)
+    self.out = list or {}
     self.last = #list
-end
-
-function mylib.struct.Queue:reset()
     self.first = 1
-    self.last = 0
-    self.out = {}
 end
 
 -- Push item to back of queue.
@@ -42,7 +32,7 @@ function mylib.struct.Queue:pop()
         self.first = self.first + 1
         return value
     end
-    self:reset()
+    self:set()
 end
 
 -- Peek item from the front of the queue without popping.
@@ -50,7 +40,7 @@ function mylib.struct.Queue:peek()
     if (self.first <= self.last) then
         return self.out[self.first]
     end
-    self:reset()
+    self:set()
 end
 
 -- Remove items from startIndex to endIndex (including) from the queue.
@@ -70,6 +60,12 @@ function mylib.struct.Queue:remove(startIndex, endIndex)
     end
 end
 
+function mylib.struct.Queue:unpack(startIndex, endIndex)
+    startIndex = (startIndex or 1) - (self.first - 1)
+    endIndex = (endIndex or self:size()) - (self.first - 1)
+    return table.unpack(self.out, startIndex, endIndex)
+end
+
 -- Return the number of elements currently in the queue.
 function mylib.struct.Queue:size()
     return self.last - self.first + 1
@@ -84,16 +80,15 @@ end
 
 -- Pop queue until its empty.
 function mylib.struct.Queue:clear()
-    while(self:pop()) do
-    end
-    self:reset()
+    while(self:pop()) do end
+    self:set()
 end
 
 -- Transform contents of the queue into a string.
 function mylib.struct.Queue:toString()
     txt = ""
     for i = self.first, self.last, 1 do
-        txt = txt .. self:_itemToString(i) .. " "
+        txt = txt .. tostring(self:_getItemAtRawIndex(index)) .. " "
     end
     return txt
 end
@@ -107,14 +102,9 @@ function mylib.struct.Queue:toList()
     return i
 end
 
--- Helper Functions
+-- Helper functions
 
--- Get the item at index, note that indexing starts at self.first.
+-- Get the item at raw index , note that indexing starts at self.first.
 function mylib.struct.Queue:_getItemAtRawIndex(index)
     return self.out[index]
-end
-
--- Return item at index as string, note that indexing starts at self.first.
-function mylib.struct.Queue:_itemToString(index)
-    return tostring(self:_getItemAtRawIndex(index))
 end

@@ -29,13 +29,12 @@ end
 
 function mylib.struct.TransientQueue:peek()
     local item = mylib.struct.TransientQueue.super.peek(self)
-    if (item ~= nil) then
-        return item[1]
-    end
-    return nil
+    if (item) then return item[1] end
 end
 
+-- Helper functions
+
 -- Return item at index as string, note that indexing starts at self.first.
-function mylib.struct.TransientQueue:getItemAtRawIndex(index)
+function mylib.struct.TransientQueue:_getItemAtRawIndex(index)
     return self.out[index][1]
 end
