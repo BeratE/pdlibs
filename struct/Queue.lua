@@ -13,8 +13,10 @@ function mylib.struct.Queue:init(list)
     end
 end
 
--- Initialize the queue from a given list
+--[[ Initialize the queue from a given list.
+ NOTE: the list must be consecutively integer indexed.]]
 function mylib.struct.Queue:fromList(list)
+    assert(type(list) == "table", "Queue requires table when initializing from list")
     self.out = list
     self.first = 1
     self.last = #list
@@ -39,18 +41,16 @@ function mylib.struct.Queue:pop()
         self.out[self.first] = nil
         self.first = self.first + 1
         return value
-    else
-        self:reset()
     end
+    self:reset()
 end
 
 -- Peek item from the front of the queue without popping.
 function mylib.struct.Queue:peek()
     if (self.first <= self.last) then
         return self.out[self.first]
-    else
-        self:reset()
     end
+    self:reset()
 end
 
 -- Remove items from startIndex to endIndex (including) from the queue.
@@ -93,38 +93,28 @@ end
 function mylib.struct.Queue:toString()
     txt = ""
     for i = self.first, self.last, 1 do
-        txt = txt .. self:itemToString(i) .. " "
+        txt = txt .. self:_itemToString(i) .. " "
     end
     return txt
-end
-
--- Return item at index as string, note that indexing starts at self.first.
-function mylib.struct.Queue:itemToString(index)
-    return tostring(self:getItemAtRawIndex(index))
-end
-
--- Check if given item is at the front.
-function mylib.struct.Queue:isFirstItem(item)
-    return self:peek() == item
-end
-
--- Return a reference to a random element in the queue.
-function mylib.struct.Queue:getRandomItem()
-    if (self.first <= self.last) then
-        return self:getItemAtRawIndex(math.random(self.first, self.last))
-    end
-end
-
--- Get the item at index, note that indexing starts at self.first.
-function mylib.struct.Queue:getItemAtRawIndex(index)
-    return self.out[index]
 end
 
 -- Transform the queue into a basic list table
 function mylib.struct.Queue:toList()
     list = {}
     for i = self.first, self.last do
-        table.insert(list, self:getItemAtRawIndex(i))
+        table.insert(list, self:_getItemAtRawIndex(i))
     end
     return i
+end
+
+-- Helper Functions
+
+-- Get the item at index, note that indexing starts at self.first.
+function mylib.struct.Queue:_getItemAtRawIndex(index)
+    return self.out[index]
+end
+
+-- Return item at index as string, note that indexing starts at self.first.
+function mylib.struct.Queue:_itemToString(index)
+    return tostring(self:_getItemAtRawIndex(index))
 end
