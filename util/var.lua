@@ -1,6 +1,6 @@
 -- Utility functions to put variables into an extra namespace 
 
-import "pdlibs/string"
+import "pdlibs/util/string"
 
 mylib = mylib or {}
 

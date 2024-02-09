@@ -1,6 +1,6 @@
 import "CoreLibs/object"
 
-import "pdlibs/var"
+import "pdlibs/util/debug/var"
 import "pdlibs/behavior/Behavior"
 
 -- Abstract class for stack operation leaf nodes

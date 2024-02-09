@@ -1,7 +1,7 @@
 import "CoreLibs/object"
 
 import "pdlibs/behavior/Behavior"
-import "pdlibs/util"
+import "pdlibs/util/debug"
 
 -- Dump the given object to console .. useful for debugging
 class('Print', {}, mylib.behavior).extends(mylib.behavior.Behavior)
