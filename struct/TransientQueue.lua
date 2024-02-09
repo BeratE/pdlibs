@@ -13,7 +13,7 @@ end
 
 -- Update the framebuffer and remove deprecate elements.
 function mylib.struct.TransientQueue:tick()
-    local item = self:peek()
+    local item = mylib.struct.TransientQueue.super.peek(self)
     if item then
         if (item[2] + self.NUM_BUFFER_TICKS <= self.nTicks)  then
             self:pop()
@@ -25,6 +25,14 @@ end
 -- Push item with current frame number as timestamp, items are stored as {item, framenumber}.
 function mylib.struct.TransientQueue:push(item)
     mylib.struct.TransientQueue.super.push(self, {item, self.nTicks})
+end
+
+function mylib.struct.TransientQueue:peek()
+    local item = mylib.struct.TransientQueue.super.peek(self)
+    if (item ~= nil) then
+        return item[1]
+    end
+    return nil
 end
 
 -- Return item at index as string, note that indexing starts at self.first.
