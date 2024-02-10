@@ -14,7 +14,7 @@ To avoid importing all files in a directory seperately, you can import the `all.
 ## Modules
 
 ### N-Grams
-General [N-Gram](https://en.wikipedia.org/wiki/N-gram) implementation. 
+General [N-Gram](https://en.wikipedia.org/wiki/N-gram) implementation using Laplace-Smoothing.
 Useful for learning and predicting input patterns.
 An N-Gram takes a list of possible events (the *alphabet* or *event space*) and collects statistical data on the occurrence of event-patterns of lenght *N*.
 

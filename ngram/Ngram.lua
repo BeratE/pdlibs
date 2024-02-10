@@ -3,13 +3,12 @@ import "CoreLibs/object"
 import "pdlibs/struct/BoundedQueue"
 
 mylib = mylib or {}
-mylib.ngram = mylib.ngram or {}
 
 --[[ General N-Gram implementation with Laplace-Smoothing.
  Sequences are stored as table list of events (from event space). --]]
-class('Ngram', nil, mylib.ngram).extends()
+class('Ngram', nil, mylib).extends()
 
-function mylib.ngram.Ngram:init(order, eventSpace,
+function mylib.Ngram:init(order, eventSpace,
         --[[optional]] initSequence,  -- Initial input sequence
         --[[optional]] sequenceBound) -- Upper limit on stored sequence lenght
     self:_initOrder(order)
@@ -21,7 +20,7 @@ function mylib.ngram.Ngram:init(order, eventSpace,
 end
 
 -- Add an event to the sequence
-function mylib.ngram.Ngram:pushEvent(event)
+function mylib.Ngram:pushEvent(event)
     if (self.model[event]) then
         -- Check for patterns
         if (self.sequence:size() >= self.windowSize) then
@@ -39,7 +38,7 @@ function mylib.ngram.Ngram:pushEvent(event)
 end
 
 -- Add a sequence of the events
-function mylib.ngram.Ngram:pushSequence(sequence)
+function mylib.Ngram:pushSequence(sequence)
     if (type(sequence) == "string") then
         for i = 1, #sequence do
             self:pushEvent(sequence:sub(i,i))
@@ -52,7 +51,7 @@ function mylib.ngram.Ngram:pushSequence(sequence)
 end
 
 -- Returns the probability of event occurring in the future
-function mylib.ngram.Ngram:pEvent(event)
+function mylib.Ngram:pEvent(event)
     if (not self.model[event]) then
         return 0 -- event not in eventspace has zero probability
     end
@@ -62,24 +61,24 @@ function mylib.ngram.Ngram:pEvent(event)
 end
 
 -- Returns the probability that event will occurr next in the sequence
-function mylib.ngram.Ngram:pNextEvent(event)
+function mylib.Ngram:pEventNext(event)
     
 end
 
 -- Returns the probability that pattern will occurr in the future
-function mylib.ngram.Ngram:pPattern(pattern)
+function mylib.Ngram:pPattern(pattern)
     local p = 1
     
     return p / nAllPattern
 end
 
 -- Returns the probability that pattern will occurr next in the sequence
-function mylib.ngram.Ngram:pPatternNext(pattern)
+function mylib.Ngram:pPatternNext(pattern)
     
 end
 
 -- Retrieve window from the sequencebuffer in [i, j]
-function mylib.ngram.Ngram:window(i, j)
+function mylib.Ngram:window(i, j)
     i = i or self.sequence:size() - self.windowSize + 1
     j = j or i + self.windowSize - 1
     return self.sequence:sub(i, j)
@@ -87,7 +86,7 @@ end
 
 --[[ Returns unigram table containing the occurrences for each event 
  and total occurrences --]]
-function mylib.ngram.Ngram:getUnigram()
+function mylib.Ngram:getUnigram()
     local t = {}
     local n = 0
     for _, e in ipairs(self.eventSpace) do
@@ -99,7 +98,7 @@ end
 
 -- Helper functions
 
-function mylib.ngram.Ngram:_countEventInWindow(event, i, j)
+function mylib.Ngram:_countEventInWindow(event, i, j)
     local n = 0
     local window = self:window(i, j)
     for _, e in ipairs(window) do
@@ -108,19 +107,19 @@ function mylib.ngram.Ngram:_countEventInWindow(event, i, j)
     return n
 end
 
-function mylib.ngram.Ngram:_nAllPattern()
+function mylib.Ngram:_nAllPattern()
     -- (Sum of all pattern occurrences so far) + (1 * E^N [Laplace-Smoothing])
     return ((self.sequence:size() - self.windowSize) + self.patternSpaceSize)
 end
 
 
-function mylib.ngram.Ngram:_initOrder(order)
+function mylib.Ngram:_initOrder(order)
     assert(type(order) == "number" and order > 0, "N-Gram requires positive integer order")
     self.order = order
     self.windowSize = order-1
 end
 
-function mylib.ngram.Ngram:_initEventSpace(eventSpace)
+function mylib.Ngram:_initEventSpace(eventSpace)
     if (type(eventSpace) == "string") then
         self.eventSpace = {}
         for i = 1, #eventSpace do
@@ -136,7 +135,7 @@ function mylib.ngram.Ngram:_initEventSpace(eventSpace)
     self.patternSpaceSize = self.windowSpaceSize * self.eventSpaceSize
 end
 
-function mylib.ngram.Ngram:_initModel(N, model)
+function mylib.Ngram:_initModel(N, model)
     if (N <= 0) then return end
     for _, event in ipairs(self.eventSpace) do
         model[event] = { }
