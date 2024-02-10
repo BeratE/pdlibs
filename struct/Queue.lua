@@ -92,7 +92,7 @@ end
 function mylib.struct.Queue:toString()
     txt = ""
     for i = self.first, self.last do
-        txt = txt .. self:_getItemAtRawIndexToString(i) .. " "
+        txt = txt .. tostring(self:_getItemAtRawIndex(i)) .. " "
     end
     return txt
 end
@@ -109,13 +109,7 @@ end
 -- Helper functions
 
 function mylib.struct.Queue:_getItemAtRawIndex(index)
-    if(index >= self.first and index <= self.last) then
-        return self.out[index]
-    end
-end
-
-function mylib.struct.Queue:_getItemAtRawIndexToString(index)
-    return tostring(self:_getItemAtRawIndex(index))
+    return self.out[index]
 end
 
 function mylib.struct.Queue:_toRawIndex(index)
