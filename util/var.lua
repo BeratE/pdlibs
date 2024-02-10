@@ -7,7 +7,7 @@ mylib = mylib or {}
 mylib.var = mylib.var or {}              -- Default environment
 mylib.var.ns = mylib.var.ns or {}        -- Namespace functions
 setmetatable(mylib.var, {__index = _G})
-mylib.varCurrEnv = mylib.var             -- Current variable environment
+mylib._varCurrEnv = mylib.var             -- Current variable environment
 
 local defns <const> = "defns"
 mylib.var[defns] = mylib.var[defns] or {}  -- Default namespace
@@ -36,12 +36,12 @@ end
 
 -- Set current variable environment to global
 function mylib.var.setEnvGlobal()
-    mylib.varCurrEnv = _G
+    mylib._varCurrEnv = _G
 end
 
 -- Set current variable environment to default
 function mylib.var.setEnvDefault()
-    mylib.varCurrEnv = mylib.var
+    mylib._varCurrEnv = mylib.var
 end
 
 -- [[ Management ]]
@@ -49,17 +49,17 @@ end
 -- Get variable namespace or create new if not exists
 function mylib.var.ns.get(namespace)
     namespace = namespace or defns
-    if (mylib.varCurrEnv[namespace] == nil) then
-        mylib.varCurrEnv[namespace] = {}
+    if (mylib._varCurrEnv[namespace] == nil) then
+        mylib._varCurrEnv[namespace] = {}
     end
-    return mylib.varCurrEnv[namespace]
+    return mylib._varCurrEnv[namespace]
 end
 
 --[[ Generates a new namespace in the current enviroment, 
   returns namespace name, namespace --]]
 function mylib.var.ns.generate()
     local ns = "ns" .. mylib.string.random(6)
-    while (mylib.varCurrEnv[ns] ~= nil) do
+    while (mylib._varCurrEnv[ns] ~= nil) do
         ns = "ns" .. mylib.string.random(6)
     end
     return ns, mylib.var.ns.get(ns)
