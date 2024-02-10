@@ -40,8 +40,14 @@ end
 
 -- Add a sequence of the events
 function mylib.ngram.Ngram:pushSequence(sequence)
-    for _, e in ipairs(sequence) do
-        self:pushEvent(e)
+    if (type(sequence) == "string") then
+        for i = 1, #sequence do
+            self:pushEvent(sequence:sub(i,i))
+        end
+    elseif (type(sequence) == "table") then
+        for _, e in ipairs(sequence) do
+            self:pushEvent(e)
+        end
     end
 end
 
