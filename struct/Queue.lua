@@ -61,15 +61,13 @@ function mylib.struct.Queue:remove(startIndex, endIndex)
 end
 
 function mylib.struct.Queue:sub(startIndex, endIndex)
-    startIndex = (startIndex or 1) - (self.first - 1)
-    endIndex = (endIndex or self:size()) - (self.first - 1)
-    if (startIndex <= endIndex) then
-        local t = {}
-        for i = startIndex, endIndex do
-            table.insert(t, self:_getItemAtRawIndex(i))
-        end
-        return t
+    startIndex = self:_toRawIndex(startIndex or 1)
+    endIndex   = self:_toRawIndex(endIndex or self:size())
+    local t = {}
+    for i = startIndex, endIndex do
+        table.insert(t, self:_getItemAtRawIndex(i))
     end
+    return t
 end
 
 -- Return the number of elements currently in the queue.
@@ -118,4 +116,8 @@ end
 
 function mylib.struct.Queue:_getItemAtRawIndexToString(index)
     return tostring(self:_getItemAtRawIndex(index))
+end
+
+function mylib.struct.Queue:_toRawIndex(index)
+    return index + self.first - 1
 end
