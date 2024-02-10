@@ -19,24 +19,6 @@ function mylib.Ngram:init(order, eventSpace,
     self:pushSequence(initSequence or {})
 end
 
--- Add an event to the sequence
-function mylib.Ngram:pushEvent(event)
-    if (self.model[event]) then
-        -- Check for patterns
-        if (self.sequence:size() >= self.windowSize) then
-            local m = self.model
-            for _, w in ipairs(self:window()) do
-                m = m[w]
-            end
-            m[event]._count += 1
-        end
-        -- Update Unigram
-        self.model[event]._count += 1
-        local e = self.sequence:push(event)
-        if e then self.model[e]._count -= 1 end
-    end
-end
-
 -- Add a sequence of the events
 function mylib.Ngram:pushSequence(sequence)
     if (type(sequence) == "string") then
@@ -50,43 +32,58 @@ function mylib.Ngram:pushSequence(sequence)
     end
 end
 
+-- Add an event to the sequence
+function mylib.Ngram:pushEvent(event)
+    if (self.model[event]) then
+        -- Check for patterns
+        if (self.sequence:size() >= self.windowSize) then
+            local m = self.model
+            for _, w in ipairs(self:_window()) do m = m[w] end
+            m[event]._count += 1
+        end
+        -- Update Unigram
+        self.model[event]._count += 1
+        local e = self.sequence:push(event)
+        if e then self.model[e]._count -= 1 end
+    end
+end
+
 -- Returns the probability of event occurring in the future
 function mylib.Ngram:pEvent(event)
-    if (not self.model[event]) then
-        return 0 -- event not in eventspace has zero probability
+    if (self.model[event]) then
+        return (self.model[event]._count
+                    - self:_countEventInWindow(event, 1)
+                    + self.windowSpaceSize)
+                / self:_nAllPattern()
     end
-    local nEventInWindow = self:_countEventInWindow(event, 1)
-    local nEventPattern = (self.model[event]._count - nEventInWindow + self.windowSpaceSize)
-    return nEventPattern / self:_nAllPattern()
+    return 0
 end
 
 -- Returns the probability that event will occurr next in the sequence
 function mylib.Ngram:pEventNext(event)
-    
+    if (self.model[event] and self.sequence:size() >= self.windowSize) then
+        local sum = 0
+        local m = self.model
+        for _, w in ipairs(self:_window()) do m = m[w] end
+        for _, v in pairs(m) do sum += v._count end
+        return (m[event]._count + 1) / (sum + self.eventSpaceSize)
+    end
+    return self:pEvent(event)
 end
 
 -- Returns the probability that pattern will occurr in the future
 function mylib.Ngram:pPattern(pattern)
-    local p = 1
-    
-    return p / nAllPattern
-end
-
--- Returns the probability that pattern will occurr next in the sequence
-function mylib.Ngram:pPatternNext(pattern)
-    
-end
-
--- Retrieve window from the sequencebuffer in [i, j]
-function mylib.Ngram:window(i, j)
-    i = i or self.sequence:size() - self.windowSize + 1
-    j = j or i + self.windowSize - 1
-    return self.sequence:sub(i, j)
+    if (#pattern == self.order) then
+        local m = self.model
+        for _, w in ipairs(pattern) do m = m[w] end
+        return (m._count + 1) / self:_nAllPattern()
+    end
+    return 0
 end
 
 --[[ Returns unigram table containing the occurrences for each event 
  and total occurrences --]]
-function mylib.Ngram:getUnigram()
+function mylib.Ngram:unigram()
     local t = {}
     local n = 0
     for _, e in ipairs(self.eventSpace) do
@@ -96,22 +93,32 @@ function mylib.Ngram:getUnigram()
     return t, n
 end
 
+
 -- Helper functions
 
+-- Retrieve window from the sequencebuffer in [i, j]
+function mylib.Ngram:_window(i, j)
+    i = i or self.sequence:size() - self.windowSize + 1
+    j = j or i + self.windowSize - 1
+    return self.sequence:sub(i, j)
+end
+
+-- Count occurrences of event in window of [i, j]
 function mylib.Ngram:_countEventInWindow(event, i, j)
     local n = 0
-    local window = self:window(i, j)
+    local window = self:_window(i, j)
     for _, e in ipairs(window) do
         if e == event then n += 1 end
     end
     return n
 end
 
+-- (Sum of all pattern occurrences so far) + (1 * E^N [Laplace-Smoothing])
 function mylib.Ngram:_nAllPattern()
-    -- (Sum of all pattern occurrences so far) + (1 * E^N [Laplace-Smoothing])
     return ((self.sequence:size() - self.windowSize) + self.patternSpaceSize)
 end
 
+-- Initialization
 
 function mylib.Ngram:_initOrder(order)
     assert(type(order) == "number" and order > 0, "N-Gram requires positive integer order")
