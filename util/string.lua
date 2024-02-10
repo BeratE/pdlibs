@@ -16,3 +16,11 @@ function mylib.string.random(length, charset)
     local c = charset[math.random(#charset-1)]
     return c .. mylib.string.random(length-1)
 end
+
+function mylib.string.toArray(string)
+    array = {}
+    for i = 1, #string do
+        array[i] = string:sub(i,i)
+    end
+    return array
+end
