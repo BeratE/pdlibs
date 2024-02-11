@@ -21,3 +21,13 @@ function mylib.dump(o)
        return tostring(o)
     end
 end
+
+-- Measure the execution time of a given function
+function mylib.profile(fun, args, name)
+    playdate.resetElapsedTime()
+    local ret = fun(args)
+    local elapsed = playdate.getElapsedTime() * 1000
+    print("DEBUG - Profile(".. (name or "") .. ") - took " .. elapsed .. "ms")
+    return ret
+end
+
