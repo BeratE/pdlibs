@@ -10,8 +10,8 @@ mylib = mylib or {}
 class('Ngram', nil, mylib).extends()
 
 function mylib.Ngram:init(order, eventSpace,
-        --[[optional]] initSequence,  -- Initial input sequence
-        --[[optional]] sequenceBound) -- Upper limit on stored sequence lenght (default order * 100) for now
+        --[[optional]] sequenceBound, -- Upper limit on stored sequence lenght (default order * 100) for now
+        --[[optional]] initSequence)  -- Initial input sequence
     -- Init Order
     assert(type(order) == "number" and order > 0, "N-Gram requires positive integer order")
     assert((sequenceBound == nil) or (sequenceBound > order), "N-Gram recieved invalid sequence bound")
@@ -77,14 +77,7 @@ function mylib.Ngram:pushEvent(event)
     end
 end
 
---[[ Returns the event probability distribution as key/value pairs. ]]
-function mylib.Ngram:pDist()
-    local dist = {}
-    for _, event in ipairs(self.eventSpace) do
-        dist[event] = self:pEventNext(event)
-    end
-    return dist
-end
+-- [[ Probability ]]
 
 --[[ Returns the probability that event will occurr next in the memory sequence. ]]
 function mylib.Ngram:pEventNext(event)
@@ -114,7 +107,7 @@ end
 
 --[[ Returns the probability that pattern will occurr in the future.
  Accepts any pattern up to length order. ]]
-function mylib.Ngram:pPattern(pattern)
+ function mylib.Ngram:pPattern(pattern)
     local N = #pattern
     if (N <= self.order) then
         local m = self:modelByPattern(pattern)
@@ -123,6 +116,53 @@ function mylib.Ngram:pPattern(pattern)
     return 0
 end
 
+-- [[ Distribution ]]
+
+--[[ Returns the event probability distribution as key/value pairs. ]]
+function mylib.Ngram:pDist()
+    local dist = {}
+    for _, event in ipairs(self.eventSpace) do
+        dist[event] = self:pEventNext(event)
+    end
+    return dist
+end
+
+--[[ Returns the event probability distribution as key/value pairs. ]]
+function mylib.Ngram:pDistSum()
+    local dist, sum = {}, 0
+    for _, event in ipairs(self.eventSpace) do
+        sum += self:pEventNext(event)
+        dist[event] = sum
+    end
+    return dist
+end
+
+--[[ Iterator for probability distribution, use like "for e, p in pDistIt() do ...". ]]
+function mylib.Ngram:pDistIt()
+    local i = 0
+    local it = function ()
+        i += 1
+        local event = self.eventSpace[i]
+        return event, self:pEventNext(event)
+    end
+    return it, self.eventSpace, nil
+end
+
+--[[ Iterator for integral of probability distribution, use like "for e, s in pDistIt() do ...". ]]
+function mylib.Ngram:pDistSumIt()
+    local i = 0
+    local s = 0
+    local it = function ()
+        i += 1
+        local event = self.eventSpace[i]
+        s += self:pEventNext(event)
+        return event, s
+    end
+    return it, self.eventSpace, nil
+end
+
+
+-- [[ Utility ]]
 
 --[[ Returns unigram table and total number of occurrences. ]]
 function mylib.Ngram:unigram()
@@ -133,7 +173,6 @@ function mylib.Ngram:unigram()
     end
     return t, n
 end
-
 
 --[[ Retrieve subtree of model following the given pattern. ]]
 function mylib.Ngram:modelByPattern(pattern)
