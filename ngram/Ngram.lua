@@ -21,8 +21,12 @@ function mylib.Ngram:init(order, eventSpace,
     if (type(eventSpace) == "string") then
         eventSpace = mylib.string.toArray(eventSpace)
     end
-    self.eventSpace = eventSpace
-    self.spaceSize = { #eventSpace }
+    -- Deep copy event space
+    self.eventSpace = {}
+    for k, v in pairs(eventSpace) do
+        table.insert(self.eventSpace, v)
+    end
+    self.spaceSize = { #self.eventSpace }
     for i = 2, self.order do
         self.spaceSize[i] = self.spaceSize[i-1] * self.spaceSize[1]
     end
@@ -137,6 +141,8 @@ function mylib.Ngram:pDistSum()
     return dist
 end
 
+-- [[ Iterators ]]
+
 --[[ Iterator for probability distribution, use like "for e, p in pDistIt() do ...". ]]
 function mylib.Ngram:pDistIt()
     local i = 0
@@ -161,8 +167,22 @@ function mylib.Ngram:pDistSumIt()
     return it, self.eventSpace, nil
 end
 
+--[[ Returns an iterator to the sequence starting at index (default 1). ]]
+function mylib.Ngram:sequenceIt(index)
+    -- Store variables in local closure for faster access
+    local seq = self.sequence
+    local j = seq:_toRawIndex(index or 1) - 1
+    local seqIdx = self.sequence._getItemAtRawIndex
+    return function () j=j+1 return seqIdx(seq, j) end
+end
 
--- [[ Utility ]]
+--[[ Returns an iterator to the window (last order-1 events of the sequence). ]]
+function mylib.Ngram:windowIt()
+    local wp = self:getSequenceLength() - self.order + 2
+    return self:sequenceIt(wp)
+end
+
+-- [[ Retrieval ]]
 
 --[[ Returns unigram table and total number of occurrences. ]]
 function mylib.Ngram:unigram()
@@ -172,6 +192,11 @@ function mylib.Ngram:unigram()
         n += t[e]
     end
     return t, n
+end
+
+-- Return the last event that was pushed to the sequence
+function mylib.Ngram:getLastEvent()
+    return self.sequence.out[self.sequence:_toRawIndex(self:getSequenceLength())]
 end
 
 --[[ Retrieve subtree of model following the given pattern. ]]
@@ -189,21 +214,6 @@ function mylib.Ngram:modelByIt(it)
     local m, e = self.model, it()
     while e do m, e = m[e], it() end
     return m
-end
-
---[[ Returns an iterator to the sequence starting at index (default 1). ]]
-function mylib.Ngram:sequenceIt(index)
-    -- Store variables in local closure for faster access
-    local seq = self.sequence
-    local j = seq:_toRawIndex(index or 1) - 1
-    local seqIdx = self.sequence._getItemAtRawIndex
-    return function () j=j+1 return seqIdx(seq, j) end
-end
-
---[[ Returns an iterator to the window (last order-1 events of the sequence). ]]
-function mylib.Ngram:windowIt()
-    local wp = self:getSequenceLength() - self.order + 2
-    return self:sequenceIt(wp)
 end
 
 --[[ Returns sum of all occurrences of pattern of length N (default order). ]]
