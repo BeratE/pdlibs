@@ -154,11 +154,11 @@ end
 
 --[[ Returns an iterator to the sequence starting at index (default 1). ]]
 function mylib.Ngram:sequenceIt(index)
-    local j = self.sequence:_toRawIndex(index or 1) - 1
-    return function ()
-        j = j + 1
-        return self.sequence:_getItemAtRawIndex(j)
-    end
+    -- Store variables in local closure for faster access
+    local seq = self.sequence
+    local j = seq:_toRawIndex(index or 1) - 1
+    local seqIdx = self.sequence._getItemAtRawIndex
+    return function () j=j+1 return seqIdx(seq, j) end
 end
 
 --[[ Returns an iterator to the window (last order-1 events of the sequence). ]]
