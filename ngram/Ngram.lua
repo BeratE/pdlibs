@@ -11,7 +11,7 @@ class('Ngram', nil, mylib).extends()
 
 function mylib.Ngram:init(order, eventSpace,
         --[[optional]] initSequence,  -- Initial input sequence
-        --[[optional]] sequenceBound) -- Upper limit on stored sequence lenght
+        --[[optional]] sequenceBound) -- Upper limit on stored sequence lenght (default order * 100) for now
     -- Init Order
     assert(type(order) == "number" and order > 0, "N-Gram requires positive integer order")
     assert((sequenceBound == nil) or (sequenceBound > order), "N-Gram recieved invalid sequence bound")
@@ -42,7 +42,8 @@ function mylib.Ngram:init(order, eventSpace,
     end
     buildModelRec(self.order, self.model)
     -- Initialize sequence
-    self.sequence = mylib.struct.BoundedQueue(sequenceBound)
+    self.sequenceBound = sequenceBound or self.order * 100
+    self.sequence = mylib.struct.BoundedQueue(self.sequenceBound)
     self:pushSequence(initSequence or {})
 end
 
