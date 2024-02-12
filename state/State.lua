@@ -5,6 +5,10 @@ mylib = mylib or {}
 mylib.state = {}
 class('State', {}, mylib.state).extends()
 
+-- Called when creating the state (object constructor)
+function mylib.state.State:init()
+end
+
 -- Called when entering the state.
 function mylib.state.State:onEnter()
 end

@@ -5,22 +5,22 @@ import "pdlibs/state/State"
 -- StateMachine used to handle transitions between states.
 class('StateMachine', {}, mylib.state).extends()
 
-function mylib.state.StateMachine:init(scene)
+function mylib.state.StateMachine:init(state)
     mylib.state.StateMachine.super.init(self)
-    self.currentState = scene
-    self.previousState = nil
+    self.currentState = state or mylib.state.State()
+    self.previousState = mylib.state.State()
 end
 
 -- Switch to the given state
 function mylib.state.StateMachine:switch(state,
     --[[optional]] skipExit,
     --[[optional]] skipEnter)
-    if (self.currentState and not skipExit) then
+    if (not skipExit) then
         self.currentState:onExit()
     end
     self.previousState = self.currentState
     self.currentState = state
-    if (self.currentState and not skipEnter) then
+    if (not skipEnter) then
         self.currentState:onEnter()
     end
 end
@@ -30,21 +30,19 @@ function mylib.state.StateMachine:revert(
     --[[optional]] skipExit,
     --[[optional]] skipEnter)
     scene = self.currentState
-    if (self.currentState and not skipExit) then
+    if (not skipExit) then
         self.currentState:onExit()
     end
     self.currentState = self.previousState
     self.previousState = scene
-    if (self.currentState and not skipEnter) then
+    if (not skipEnter) then
         self.currentState:onEnter()
     end
 end
 
 -- Update the current state
 function mylib.state.StateMachine:update()
-    if (self.currentState) then
-        self.currentState:onUpdate()
-    end
+    self.currentState:onUpdate()
 end
 
 -- Override object isa function
