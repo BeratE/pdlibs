@@ -150,27 +150,28 @@ end
 -- [[ Iterators ]]
 
 --[[ Iterate (event, proability) over given events (default eventspace),
- use: "for e, p in pDistIt() do .. end". ]]
+ use: "for e, p in pmfIt() do .. end". ]]
 function mylib.Ngram:pmfIt(events)
     events = events or self.eventSpace
-    local it = function ()
-        local event = next(events)
-        return event, self:pEventNext(event)
+    local i = 0
+    return function ()
+        i += 1
+        local e = events[i]
+        return e, self:pEventNext(e)
     end
-    return it, events, nil
 end
 
 --[[ Iterator (event, sum of proability) over given events (default eventspace),
- use like "for e, s in pSumIt() do .. end". ]]
+ use like "for e, s in pmfSumIt() do .. end". ]]
 function mylib.Ngram:pmfSumIt(events)
     events = events or self.eventSpace
-    local s = 0
-    local it = function ()
-        local event = next(events)
-        s += self:pEventNext(event)
-        return event, s
+    local s, i = 0, 0
+    return function ()
+        i += 1
+        local e = events[i]
+        s += self:pEventNext(e)
+        return e, s
     end
-    return it, events, nil
 end
 
 --[[ Returns an iterator to the sequence starting at given index (default 1). ]]

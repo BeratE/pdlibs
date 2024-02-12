@@ -32,9 +32,9 @@ See `var.lua` on the usage of variables.
 
 ### Decorator nodes
 Decorator nodes modulate the behavior of their single child node.
-* `Run(?b)` Execute behavior and always return `RUNNING`.
-* `Fail(?b)` Execute behavior `b` and always return `FAILURE`.
-* `Succeed(?b)` Execute behavior `b` and always return `SUCCESS`.
+* `Run(*?b)` Execute behavior and always return `RUNNING`.
+* `Fail(*?b)` Execute behavior `b` and always return `FAILURE`.
+* `Succeed(*?b)` Execute behavior `b` and always return `SUCCESS`.
 * `Invert(b)` Invert completion status of behavior `b`.
 * `Chance(p*, b, ?s)` Execute with `p`% chance. Return status `s` if missed.
 * `Repeat(limit, b)` Repeat behavior until fail or limit reached.
@@ -45,8 +45,8 @@ Composite nodes take a list of children `{b1, b2, ..}` as argument.
 * `Selector({b1, b2, ..})` (OR) Execute children sequentially until one succeeds.
 * `Sequence({b1, b2, ..})` (AND) Execute children sequentially until one fails.
 * `Parallel(sp, fp, {b1, b2, ..})` Update all behaviors with given success/fail policy.
-* `Filter(b1, b2)` Execute `b2` only if `b1` succeeds (Special `Sequence`).
-* `Monitor(b1, b2)` Execute `b2` until `b1` fails (Special `Parallel`).
+* `Filter(*b1, b2)` Execute `b2` only if `b1` succeeds (Special `Sequence`).
+* `Monitor(*b1, b2)` Execute `b2` until `b1` fails (Special `Parallel`).
 * `Random({b1, b2, ..})` Select random child and execute until it completes.
 * `ActiveSelector({b1, b2, ..})` Aborts low priority children in favor of high-priority ones.
 * `RandomSelector({.., {pi, bi}, ..})` Select behavior `bi` with probability `pi`.

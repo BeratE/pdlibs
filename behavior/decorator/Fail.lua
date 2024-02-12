@@ -7,9 +7,6 @@ import "pdlibs/behavior/leaf/Action"
 class('Fail', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
 function mylib.behavior.Fail:init(child)
-    if (type(child) == "nil") then
-        child = mylib.behavior.Action()
-    end
     mylib.behavior.Fail.super.init(self, child)
 end
 

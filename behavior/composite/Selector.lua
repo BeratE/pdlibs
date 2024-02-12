@@ -17,9 +17,8 @@ end
 function mylib.behavior.Selector:onUpdate()
     while (self.currChildIdx <= #self.children) do
         local status = self.children[self.currChildIdx]:update()
-        -- If child succeeds do same
         if (status ~= mylib.behavior.Status.FAILURE) then
-            return status
+            return status -- If child succeeds do same
         end
         self.currChildIdx = self:_getNextChildIdx()
     end
@@ -28,5 +27,5 @@ end
 
 
 function mylib.behavior.Selector:_getNextChildIdx()
-    return self.currChildIdx +  1
+    return self.currChildIdx + 1
 end

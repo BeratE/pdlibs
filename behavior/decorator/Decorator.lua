@@ -16,6 +16,9 @@ end
 
 function mylib.behavior.Decorator:setChild(child)
     -- Wrap child if type of child is a function
+    if (type(child) == "nil") then
+        child = mylib.behavior.Action()
+    end
     if (type(child) == "function") then
         local actionFunction = child
         child = mylib.behavior.Action(actionFunction)
