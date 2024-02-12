@@ -25,7 +25,7 @@ Decorator nodes modulate the behavior of their single child node.
 * `Fail(b)` Execute behavior `b` and always return `FAILURE`.
 * `Run(b)` Execute behavior and always return `RUNNING`.
 * `Invert(b)` Invert completion status of given behavior.
-* `Chance(p, b)` Execute behavior only in `p` percent of the time.
+* `Chance(p, b, s)` Execute with `p`% (number/function) chance. Return status `s` if missed.
 * `Repeat(limit, b)` Repeat behavior until fail or limit reached.
 * `Delay(delay, b)` Execute behavior only after `delay` milliseconds.
 

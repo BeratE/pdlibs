@@ -2,7 +2,8 @@ import "CoreLibs/object"
 
 import "pdlibs/behavior/decorator/Decorator"
 
--- Execute child behavior given percentage of time
+--[[ Execute child behavior given percentage [0, 100] of time. 
+ Accepts function returning percentage as argument. ]]
 class('Chance', {}, mylib.behavior).extends(mylib.behavior.Decorator)
 
 function mylib.behavior.Chance:init(percentage, child, failstatus)
