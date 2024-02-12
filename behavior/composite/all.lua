@@ -1,4 +1,5 @@
 -- Import all composite nodes
+import "pdlibs/behavior/composite/RandomSelector"
 import "pdlibs/behavior/composite/ActiveSelector"
 import "pdlibs/behavior/composite/Selector"
 import "pdlibs/behavior/composite/Sequence"

@@ -2,34 +2,45 @@
 Modular [Behavior-Tree](https://en.wikipedia.org/wiki/Behavior_tree_(artificial_intelligence,_robotics_and_control)) (BT) implementation.
 The library contains the following list of nodes.
 
-## Leaf nodes
-Basic Leaf nodes in the behavior tree
-* `Action(f)` Execute given function `f`.
-* `Condition(f)` Same as above, but any status other than `SUCCESS` will fail.
-* `Print(s)` Print `s` to console output. Useful for debugging. Also takes functions.
+## Usage
 
-## Special leaf nodes
-Stack and variable operations. 
+The basic functionality is as follows. Each node calls `onUpdate()` when updated, which returns either a completion status (`SUCCESS`/`FAILURE`) or an execution hint (`INVALID`, `RUNNING`, or `ABORTED`). </br>
+Deriving classes should override the `onUpdate()` method and, if necessary, the `onActivate()` and `onTerminate()` functions, which are called once before the first and after the last call to `onUpdate()`, respectively. 
+The `onAbort()` function can be overridden to handle an aborted behavior.
+The basic API of a node consists of the functions `update()`, `abort()` and `getStatus()`.
+See the comments in the `Behaviour.lua` base class file and in the derived class files on the usage of the behaviour library.
+
+The following nodes are contained in the behavior tree library.</br>
+Arguments marked with an asterisk symbol, e.g `*p`, can also be functions returning the required type. Arguments with a questionmark, e.g. `?s` are optional.
+
+### Leaf nodes
+Basic Leaf nodes in the behavior tree
+* `Print(*s)` Print `s` to console output. Useful for debugging.
+* `Action(f)` Execute given function `f` returning a status, or `INVALID`.
+* `Condition(f)` Same as above, but any status other than `SUCCESS` will fail.
+
+### Special leaf nodes
+Stack and variable operations.</br>
 Take optional `ns` namespace string.
 See `var.lua` on the usage of variables.
 
-* `stack.Push(stack, val, ns)` Push `val` onto the stack named `stack`.
-* `stack.Pop(stack, var, ns)` Pop `stack` and write to `var`, if given.
-* `stack.Empty(stack, ns)` Return `SUCCESS` if `stack` is empty, fail otherwise. 
-* `var.Set(var, val, ns)` Set variable named `var` to value `val`.
-* `var.IsNil(var, ns)` Return `SUCCESS` if `var` is `nil`, fail otherwise.
+* `stack.Push(stack, val, ?ns)` Push `val` onto the stack named `stack`.
+* `stack.Pop(stack, var, ?ns)` Pop `stack` and write to `var`, if given.
+* `stack.Empty(stack, ?ns)` Return `SUCCESS` if `stack` is empty, fail otherwise. 
+* `var.Set(var, val, ?ns)` Set variable named `var` to value `val`.
+* `var.IsNil(var, ?ns)` Return `SUCCESS` if `var` is `nil`, fail otherwise.
 
-## Decorator nodes
+### Decorator nodes
 Decorator nodes modulate the behavior of their single child node.
-* `Succeed(b)` Execute behavior `b` and always return `SUCCESS`.
-* `Fail(b)` Execute behavior `b` and always return `FAILURE`.
-* `Run(b)` Execute behavior and always return `RUNNING`.
-* `Invert(b)` Invert completion status of given behavior.
-* `Chance(p, b, s)` Execute with `p`% (number/function) chance. Return status `s` if missed.
+* `Run(?b)` Execute behavior and always return `RUNNING`.
+* `Fail(?b)` Execute behavior `b` and always return `FAILURE`.
+* `Succeed(?b)` Execute behavior `b` and always return `SUCCESS`.
+* `Invert(b)` Invert completion status of behavior `b`.
+* `Chance(p*, b, ?s)` Execute with `p`% chance. Return status `s` if missed.
 * `Repeat(limit, b)` Repeat behavior until fail or limit reached.
 * `Delay(delay, b)` Execute behavior only after `delay` milliseconds.
 
-## Composite nodes
+### Composite nodes
 Composite nodes take a list of children `{b1, b2, ..}` as argument.
 * `Selector({b1, b2, ..})` (OR) Execute children sequentially until one succeeds.
 * `Sequence({b1, b2, ..})` (AND) Execute children sequentially until one fails.
@@ -38,14 +49,9 @@ Composite nodes take a list of children `{b1, b2, ..}` as argument.
 * `Monitor(b1, b2)` Execute `b2` until `b1` fails (Special `Parallel`).
 * `Random({b1, b2, ..})` Select random child and execute until it completes.
 * `ActiveSelector({b1, b2, ..})` Aborts low priority children in favor of high-priority ones.
+* `RandomSelector({.., {pi, bi}, ..})` Select behavior `bi` with probability `pi`.
 
-## Usage
-
-The basic functionality is as follows. Each node calls `onUpdate()` when updated, which returns either a completion status (`SUCCESS`/`FAILURE`) or an execution hint (`INVALID`, `RUNNING`, or `ABORTED`). </br>
-Deriving classes should override the `onUpdate()` method and, if necessary, the `onActivate()` and `onTerminate()` functions, which are called once before the first and after the last call to `onUpdate()`, respectively. 
-The `onAbort()` function can be overridden to handle an aborted behavior.
-The basic API of a node consists of the functions `update()`, `abort()` and `getStatus()`.
-See the comments in the `Behaviour.lua` base class file and in the derived class files on the usage of the behaviour library.
+## Examples
 
 Following is a simplified example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
 ```lua
@@ -78,6 +84,7 @@ local bhTestStack =
         end)
     })
 ```
+## Notes on variables and scoping
 
 You can access variables using the `var.get(varName, ns)` and `var.set(varName, value, ns)` functions. 
 The third namespace parameter is optional.
