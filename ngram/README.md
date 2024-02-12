@@ -27,5 +27,6 @@ The following example shows the pmf output of two different sequences for what t
 -- ..., BLOCK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, ATTACK
 { "STANCE": 0.2, "ATTACK": 0.4, "BLOCK": 0.2, "MOVE": 0.2, } 
 ```
-From this we can deduce, that the player will attack next with about 80% certainty.
-
+From this we can deduce, that in the first example, the player will most likely block next. 
+The second example is more ambigious. 
+Here we could react in 40% of the time to an attack, in 20% of the time expect the player to block, etc.
