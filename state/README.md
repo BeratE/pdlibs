@@ -1,9 +1,16 @@
 # State
-Simple Finite State Machine (FSM) library, holding the following classes.
+Simple Finite State Machine (FSM) implementation.
+See comments in the `State.lua` and `StateMachine.lua` files on the usage.
+
 ## State
-Abstract class representing a state with an `onEnter()`, an `onUpdate()` and an `onExit()` method. 
-Override these methods in a derived class.
+Abstract class representing a state.
+Contains the following methods, override in derived classes.
+* `onEnter()`: Called once when entering the state.
+* `onExit()`: Called once when exiting the state.
+* `onUpdate()`: Called on every update iteration of the state machine.
 
 ## StateMachine
-A State machine containing a reference to the current and previous state. 
-Offers functionality to update states and manage transitions. See comments in the `StateMachine.lua` file on the usage.
+State machine for managing states and transitions. Offers the following interfacing functions.
+* `switch(state)`: Switch to the new state.
+* `revert()`: Revert to the previos state.
+* `update()`: Update the current state.
