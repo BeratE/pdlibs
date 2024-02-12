@@ -60,6 +60,7 @@ function mylib.struct.Queue:remove(startIndex, endIndex)
     end
 end
 
+-- Return a subarray of the queue
 function mylib.struct.Queue:sub(startIndex, endIndex)
     startIndex = self:_toRawIndex(startIndex or 1)
     endIndex   = self:_toRawIndex(endIndex or self:size())

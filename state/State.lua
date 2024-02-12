@@ -1,8 +1,10 @@
 import "CoreLibs/object"
 
--- Abstract representation of a state.
+
 mylib = mylib or {}
 mylib.state = {}
+
+-- Abstract representation of a state.
 class('State', {}, mylib.state).extends()
 
 -- Called when creating the state (object constructor)
