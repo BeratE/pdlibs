@@ -4,8 +4,6 @@ Lua libraries created for game development on the Playdate.</br>
 The library is focused on object oriented design and is heavily dependant on the [PlaydateSDK](https://sdk.play.date/) Objects library.
 See the `README` files in the respective directories and the comments in the source files concerning the usage of the library.
 
-
-
 ## Modules
 The library contains the following sub-modules.
 * Behavior: Modular Behavior-Tree implementation.
