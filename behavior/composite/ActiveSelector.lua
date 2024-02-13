@@ -18,7 +18,6 @@ end
 function mylib.behavior.ActiveSelector:onUpdate()
     self.currChildIdx = 1
     local status = mylib.behavior.ActiveSelector.super.onUpdate(self)
-    print(self.prevChildIdx .. " " .. self.currChildIdx)
     if (self.prevChildIdx > self.currChildIdx) then
         self.children[self.prevChildIdx]:abort()
     end
