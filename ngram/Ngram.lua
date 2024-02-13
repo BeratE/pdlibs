@@ -240,6 +240,14 @@ function mylib.Ngram:getSequenceLength()
     return self.sequence:size()
 end
 
+function mylib.Ngram:getWindowSize()
+    return self.order - 1
+end
+
+function mylib.Ngram:isReady()
+    return self:getSequenceLength() >= self:getWindowSize()
+end
+
 --[[ (Static) Return the count offset occurrences of given event in given pattern. ]]
 function mylib.Ngram.countEventInPattern(event, pattern)
     local n = 0
