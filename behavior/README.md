@@ -55,7 +55,7 @@ Composite nodes take a list of children `{b1, b2, ..}` as argument.
 
 Following is a simplified example of a branch in a behaviour tree used in the Playdate game [Eclipse](https://berate.itch.io/eclipse)
 ```lua
-local <const> bh = mylib.behavior
+local <const> bh = pdlibs.behavior
 -- ...
 local bhMoveIntoAttackRange = 
     bh.Selector({
@@ -80,7 +80,7 @@ local bhTestStack =
         bh.stack.Pop("mystack", "foo"),
         bh.stack.Pop("mystack", "bar"),
         bh.Action(function ()
-            print(mylib.var.get("foo") .. " " .. mylib.var.get("bar"))
+            print(pdlibs.var.get("foo") .. " " .. pdlibs.var.get("bar"))
         end)
     })
 ```
@@ -92,7 +92,7 @@ The third namespace parameter is optional.
 Alternatively, you can call `var.setEnvGlobal()` before the declaration of any node to declare `foo` and `bar` to global variables.
 The body of the action function then becomes `print(foo .. " " .. bar)`.
 
-> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. In the above example, the node `Print(mylib.var.get("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate *deferred execution*.
+> **_NOTE:_**  The scope of a node is captured on its *creation*. Changing the environment *while* creating a node, e.g. in a sequence, will not have an effect on the environment of the declared variables. In the above example, the node `Print(pdlibs.var.get("foo"))` would print `nil`, since the function will be evaluated at decleration, and at that time `foo` will be unassigned. Wrap the argument into a function to simulate *deferred execution*.
 
 Note that all behavior trees share the same default namespace for variables. 
 This makes it easy to share data or pass messages between different behavior trees. You can generate a random namespace using the function `var.ns.generate()`, which returns the namespace name you can pass on as third parameter to following library functions.

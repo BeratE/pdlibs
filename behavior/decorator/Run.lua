@@ -3,13 +3,13 @@ import "CoreLibs/object"
 import "pdlibs/behavior/decorator/Decorator"
 
 -- Execute child behavior and always return running
-class('Run', {}, mylib.behavior).extends(mylib.behavior.Decorator)
+class('Run', {}, pdlibs.behavior).extends(pdlibs.behavior.Decorator)
 
-function mylib.behavior.Run:init(child)
-    mylib.behavior.Run.super.init(self, child)
+function pdlibs.behavior.Run:init(child)
+    pdlibs.behavior.Run.super.init(self, child)
 end
 
-function mylib.behavior.Run:onUpdate()
+function pdlibs.behavior.Run:onUpdate()
     local status = self.child:update()
-    return mylib.behavior.Status.RUNNING
+    return pdlibs.behavior.Status.RUNNING
 end

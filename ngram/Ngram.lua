@@ -3,15 +3,15 @@ import "CoreLibs/object"
 import "pdlibs/struct/BoundedQueue"
 import "pdlibs/util/string"
 
-mylib = mylib or {}
+pdlibs = pdlibs or {}
 
 local next = next -- constant time indexing to next primitive
 
 --[[ General N-Gram implementation with Laplace-Smoothing.
  Sequences and patterns are stored as arrays of events (from event space). ]]
-class('Ngram', nil, mylib).extends()
+class('Ngram', nil, pdlibs).extends()
 
-function mylib.Ngram:init(order, eventSpace,
+function pdlibs.Ngram:init(order, eventSpace,
         --[[optional]] sequenceBound, -- Upper limit on stored sequence lenght (default order * 100) for now
         --[[optional]] initSequence)  -- Initial input sequence
     -- Init Order
@@ -21,7 +21,7 @@ function mylib.Ngram:init(order, eventSpace,
     self.order = order
     -- Initialize Event Space and compute space sizes |E|^i, with i in [1, N]
     if (type(eventSpace) == "string") then
-        eventSpace = mylib.string.toArray(eventSpace)
+        eventSpace = pdlibs.string.toArray(eventSpace)
     end
     -- Deep copy event space
     self.eventSpace = {}
@@ -49,14 +49,14 @@ function mylib.Ngram:init(order, eventSpace,
     buildModelRec(self.order, self.model)
     -- Initialize sequence
     self.sequenceBound = sequenceBound or self.order * 100
-    self.sequence = mylib.struct.BoundedQueue(self.sequenceBound)
+    self.sequence = pdlibs.struct.BoundedQueue(self.sequenceBound)
     self:pushSequence(initSequence or {})
 end
 
 --[[ Add a sequence of events to the sequence. ]]
-function mylib.Ngram:pushSequence(sequence)
+function pdlibs.Ngram:pushSequence(sequence)
     if (type(sequence) == "string") then
-        return self:pushSequence(mylib.string.toArray(sequence))
+        return self:pushSequence(pdlibs.string.toArray(sequence))
     end
     for _, e in ipairs(sequence) do
         self:pushEvent(e)
@@ -64,7 +64,7 @@ function mylib.Ngram:pushSequence(sequence)
 end
 
 --[[ Add an event to the sequence memory. ]]
-function mylib.Ngram:pushEvent(event)
+function pdlibs.Ngram:pushEvent(event)
     if (self.model[event]) then
         -- Update unigram and patterns
         self.model[event]._count += 1
@@ -86,7 +86,7 @@ end
 -- [[ Probability ]]
 
 --[[ Returns the probability that event will occurr next in the sequence. ]]
-function mylib.Ngram:pEventNext(event)
+function pdlibs.Ngram:pEventNext(event)
     if (self.model[event] and self:getSequenceLength() >= (self.order - 1)) then
         local m, sum = self:modelByIt(self:windowIt()), 0
         for _, e in ipairs(self.eventSpace) do
@@ -98,7 +98,7 @@ function mylib.Ngram:pEventNext(event)
 end
 
 --[[ Returns the probability of event occurring in the future. ]]
-function mylib.Ngram:pEvent(event)
+function pdlibs.Ngram:pEvent(event)
     if (self.model[event]) then
         local cnt = self.model[event]._count
         -- Remove number of occurrences of event in first window
@@ -113,7 +113,7 @@ end
 
 --[[ Returns the probability that pattern will occurr in the future.
  Accepts any pattern up to length order. ]]
- function mylib.Ngram:pPattern(pattern)
+ function pdlibs.Ngram:pPattern(pattern)
     local N = #pattern
     if (N <= self.order) then
         local m = self:modelByPattern(pattern)
@@ -126,7 +126,7 @@ end
 
 --[[ Returns the probability mass function (pmf) 
  of the given events (default all) as pairs of event/probability. ]]
-function mylib.Ngram:pmf(events)
+function pdlibs.Ngram:pmf(events)
     events = events or self.eventSpace
     local pmf = {}
     for _, e in ipairs(events) do
@@ -137,7 +137,7 @@ end
 
 --[[ Returns the discrete integral of their probability mass function (pmf) 
  of the given events (default all) as key/value pairs and total sum. ]]
-function mylib.Ngram:pmfSum(events)
+function pdlibs.Ngram:pmfSum(events)
     events = events or self.eventSpace
     local dist, sum = {}, 0
     for _, event in ipairs(events) do
@@ -151,7 +151,7 @@ end
 
 --[[ Iterate (event, proability) over given events (default eventspace),
  use: "for e, p in pmfIt() do .. end". ]]
-function mylib.Ngram:pmfIt(events)
+function pdlibs.Ngram:pmfIt(events)
     events = events or self.eventSpace
     local i = 0
     return function ()
@@ -163,7 +163,7 @@ end
 
 --[[ Iterator (event, sum of proability) over given events (default eventspace),
  use like "for e, s in pmfSumIt() do .. end". ]]
-function mylib.Ngram:pmfSumIt(events)
+function pdlibs.Ngram:pmfSumIt(events)
     events = events or self.eventSpace
     local s, i = 0, 0
     return function ()
@@ -175,7 +175,7 @@ function mylib.Ngram:pmfSumIt(events)
 end
 
 --[[ Returns an iterator to the sequence starting at given index (default 1). ]]
-function mylib.Ngram:sequenceIt(startIndex)
+function pdlibs.Ngram:sequenceIt(startIndex)
     -- Store variables in local closure for faster access
     local seq = self.sequence
     local j = seq:_toRawIndex(startIndex or 1) - 1
@@ -188,7 +188,7 @@ function mylib.Ngram:sequenceIt(startIndex)
 end
 
 --[[ Returns an iterator to the window, i.e. last (order-1) events of the sequence. ]]
-function mylib.Ngram:windowIt()
+function pdlibs.Ngram:windowIt()
     local wp = self:getSequenceLength() - self.order + 2
     return self:sequenceIt(wp)
 end
@@ -198,7 +198,7 @@ end
 --[[ Returns unigram table (event, occurrences) and total number of occurrences.
  Also called a frequency distribution. 
  Divide by total number of occurrences to obtain relative frequency]]
-function mylib.Ngram:unigram()
+function pdlibs.Ngram:unigram()
     local t, n = {}, 0
     for _, e in ipairs(self.eventSpace) do
         t[e] = self.model[e]._count
@@ -208,14 +208,14 @@ function mylib.Ngram:unigram()
 end
 
 --[[ Return the last event that was pushed to the sequence. ]]
-function mylib.Ngram:getLastEvent()
+function pdlibs.Ngram:getLastEvent()
     return self.sequence.out[self.sequence:_toRawIndex(self:getSequenceLength())]
 end
 
 --[[ Retrieve subtree of model by following the given pattern. ]]
-function mylib.Ngram:modelByPattern(pattern)
+function pdlibs.Ngram:modelByPattern(pattern)
     if (type(pattern) == "string") then
-        return self:modelByPattern(mylib.string.toArray(pattern))
+        return self:modelByPattern(pdlibs.string.toArray(pattern))
     end
     local m = self.model
     for _, w in ipairs(pattern or {}) do m = m[w] end
@@ -223,33 +223,33 @@ function mylib.Ngram:modelByPattern(pattern)
 end
 
 --[[ Retrieve subtree of model by following the given iterator (until nil). ]]
-function mylib.Ngram:modelByIt(it)
+function pdlibs.Ngram:modelByIt(it)
     local m, e = self.model, it()
     while e do m, e = m[e], it() end
     return m
 end
 
 --[[ Returns sum of all occurrences of pattern of length N (default order). ]]
-function mylib.Ngram:sumAllPatternOccurr(N)
+function pdlibs.Ngram:sumAllPatternOccurr(N)
     N = N or self.order
     return ((self:getSequenceLength() - (N-1)) + self.spaceSize[N])
 end
 
 --[[ Return the number of events currently stored in the memory sequence. ]]
-function mylib.Ngram:getSequenceLength()
+function pdlibs.Ngram:getSequenceLength()
     return self.sequence:size()
 end
 
-function mylib.Ngram:getWindowSize()
+function pdlibs.Ngram:getWindowSize()
     return self.order - 1
 end
 
-function mylib.Ngram:isReady()
+function pdlibs.Ngram:isReady()
     return self:getSequenceLength() >= self:getWindowSize()
 end
 
 --[[ (Static) Return the count offset occurrences of given event in given pattern. ]]
-function mylib.Ngram.countEventInPattern(event, pattern)
+function pdlibs.Ngram.countEventInPattern(event, pattern)
     local n = 0
     for _, e in ipairs(pattern) do
         if e == event then n += 1 end

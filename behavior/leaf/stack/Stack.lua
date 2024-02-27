@@ -4,12 +4,12 @@ import "pdlibs/util/var"
 import "pdlibs/behavior/Behavior"
 
 -- Abstract class for stack operation leaf nodes
-mylib.behavior.stack = mylib.behavior.stack or {}
-class('Stack', {}, mylib.behavior.stack).extends(mylib.behavior.Behavior)
+pdlibs.behavior.stack = pdlibs.behavior.stack or {}
+class('Stack', {}, pdlibs.behavior.stack).extends(pdlibs.behavior.Behavior)
 
-function mylib.behavior.stack.Stack:init(stackVar, namespace)
-    mylib.behavior.stack.Stack.super.init(self)
-    mylib.var.let(stackVar, {}, namespace)
+function pdlibs.behavior.stack.Stack:init(stackVar, namespace)
+    pdlibs.behavior.stack.Stack.super.init(self)
+    pdlibs.var.let(stackVar, {}, namespace)
     self.namespace = namespace
     self.stackVar = stackVar
 end

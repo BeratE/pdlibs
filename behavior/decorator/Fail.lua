@@ -4,16 +4,16 @@ import "pdlibs/behavior/decorator/Decorator"
 import "pdlibs/behavior/leaf/Action"
 
 -- Basic Succeeder. Always do action and return success.
-class('Fail', {}, mylib.behavior).extends(mylib.behavior.Decorator)
+class('Fail', {}, pdlibs.behavior).extends(pdlibs.behavior.Decorator)
 
-function mylib.behavior.Fail:init(child)
-    mylib.behavior.Fail.super.init(self, child)
+function pdlibs.behavior.Fail:init(child)
+    pdlibs.behavior.Fail.super.init(self, child)
 end
 
-function mylib.behavior.Fail:onUpdate()
+function pdlibs.behavior.Fail:onUpdate()
     local status = self.child:update()
-    if (status == mylib.behavior.Status.RUNNING) then
+    if (status == pdlibs.behavior.Status.RUNNING) then
         return status
     end
-    return mylib.behavior.Status.FAILURE
+    return pdlibs.behavior.Status.FAILURE
 end

@@ -4,14 +4,14 @@ import "pdlibs/behavior/composite/Parallel"
 import "pdlibs/behavior/leaf/Condition"
 
 -- Monitors a condition and performs the given behavior while its successfull.
-class('Monitor', {}, mylib.behavior).extends(mylib.behavior.Parallel)
+class('Monitor', {}, pdlibs.behavior).extends(pdlibs.behavior.Parallel)
 
-function mylib.behavior.Monitor:init(condition, behavior)
+function pdlibs.behavior.Monitor:init(condition, behavior)
     if (type(condition) == "function") then
-        condition = mylib.behavior.Condition(condition)
+        condition = pdlibs.behavior.Condition(condition)
     end
-    mylib.behavior.Monitor.super.init(self,
-        mylib.behavior.Parallel.Require.All, -- success policy
-        mylib.behavior.Parallel.Require.One, -- failure policy
+    pdlibs.behavior.Monitor.super.init(self,
+        pdlibs.behavior.Parallel.Require.All, -- success policy
+        pdlibs.behavior.Parallel.Require.One, -- failure policy
         {condition, behavior})
 end

@@ -2,65 +2,65 @@
 
 import "pdlibs/util/string"
 
-mylib = mylib or {}
+pdlibs = pdlibs or {}
 
-mylib.var = mylib.var or {}              -- Default environment
-mylib.var.ns = mylib.var.ns or {}        -- Namespace functions
-setmetatable(mylib.var, {__index = _G})
-mylib._varCurrEnv = mylib.var             -- Current variable environment
+pdlibs.var = pdlibs.var or {}              -- Default environment
+pdlibs.var.ns = pdlibs.var.ns or {}        -- Namespace functions
+setmetatable(pdlibs.var, {__index = _G})
+pdlibs._varCurrEnv = pdlibs.var             -- Current variable environment
 
 local defns <const> = "defns"
-mylib.var[defns] = mylib.var[defns] or {}  -- Default namespace
+pdlibs.var[defns] = pdlibs.var[defns] or {}  -- Default namespace
 
 -- [[ Variables ]]
 
 -- Declare variable (in namespace) and return value
-function mylib.var.let(name, initVal, namespace)
+function pdlibs.var.let(name, initVal, namespace)
     assert(type(name) == "string", "Require string as variable name")
-    local v = mylib.var.get(name, namespace) or (initVal or {})
-    mylib.var.set(name, v, namespace)
-    return mylib.var.get(name, namespace)
+    local v = pdlibs.var.get(name, namespace) or (initVal or {})
+    pdlibs.var.set(name, v, namespace)
+    return pdlibs.var.get(name, namespace)
 end
 
 -- Get the variable with the name (in namespace)
-function mylib.var.get(name, namespace)
-    return mylib.var.ns.get(namespace)[name]
+function pdlibs.var.get(name, namespace)
+    return pdlibs.var.ns.get(namespace)[name]
 end
 
 -- Set variable with name (in namespace) to value
-function mylib.var.set(name, value, namespace)
-    mylib.var.ns.get(namespace)[name] = value
+function pdlibs.var.set(name, value, namespace)
+    pdlibs.var.ns.get(namespace)[name] = value
 end
 
 -- [[ Environment ]]
 
 -- Set current variable environment to global
-function mylib.var.setEnvGlobal()
-    mylib._varCurrEnv = _G
+function pdlibs.var.setEnvGlobal()
+    pdlibs._varCurrEnv = _G
 end
 
 -- Set current variable environment to default
-function mylib.var.setEnvDefault()
-    mylib._varCurrEnv = mylib.var
+function pdlibs.var.setEnvDefault()
+    pdlibs._varCurrEnv = pdlibs.var
 end
 
 -- [[ Management ]]
 
 -- Get variable namespace or create new if not exists
-function mylib.var.ns.get(namespace)
+function pdlibs.var.ns.get(namespace)
     namespace = namespace or defns
-    if (mylib._varCurrEnv[namespace] == nil) then
-        mylib._varCurrEnv[namespace] = {}
+    if (pdlibs._varCurrEnv[namespace] == nil) then
+        pdlibs._varCurrEnv[namespace] = {}
     end
-    return mylib._varCurrEnv[namespace]
+    return pdlibs._varCurrEnv[namespace]
 end
 
 --[[ Generates a new namespace in the current enviroment, 
   returns namespace name, namespace --]]
-function mylib.var.ns.generate()
-    local ns = "ns" .. mylib.string.random(6)
-    while (mylib._varCurrEnv[ns] ~= nil) do
-        ns = "ns" .. mylib.string.random(6)
+function pdlibs.var.ns.generate()
+    local ns = "ns" .. pdlibs.string.random(6)
+    while (pdlibs._varCurrEnv[ns] ~= nil) do
+        ns = "ns" .. pdlibs.string.random(6)
     end
-    return ns, mylib.var.ns.get(ns)
+    return ns, pdlibs.var.ns.get(ns)
 end

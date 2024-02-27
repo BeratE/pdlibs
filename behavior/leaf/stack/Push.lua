@@ -3,14 +3,14 @@ import "CoreLibs/object"
 import "pdlibs/behavior/leaf/stack/Stack"
 
 -- Push given item onto the given stack
-class('Push', {}, mylib.behavior.stack).extends(mylib.behavior.stack.Stack)
+class('Push', {}, pdlibs.behavior.stack).extends(pdlibs.behavior.stack.Stack)
 
-function mylib.behavior.stack.Push:init(stackVar, itemValue, namespace)
-    mylib.behavior.stack.Push.super.init(self, stackVar, namespace)
+function pdlibs.behavior.stack.Push:init(stackVar, itemValue, namespace)
+    pdlibs.behavior.stack.Push.super.init(self, stackVar, namespace)
     self.itemValue = itemValue
 end
 
-function mylib.behavior.stack.Push:onUpdate()
-    table.insert(mylib.var.get(self.stackVar, self.namespace), self.itemValue)
-    return mylib.behavior.Status.SUCCESS
+function pdlibs.behavior.stack.Push:onUpdate()
+    table.insert(pdlibs.var.get(self.stackVar, self.namespace), self.itemValue)
+    return pdlibs.behavior.Status.SUCCESS
 end

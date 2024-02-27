@@ -1,7 +1,7 @@
 -- Utility functions for strings
 
-mylib = mylib or {}
-mylib.string = mylib.string or {}
+pdlibs = pdlibs or {}
+pdlibs.string = pdlibs.string or {}
 
 local alphanumerical = {}  do -- [0-9a-zA-Z]
     for c = 48, 57  do table.insert(alphanumerical, string.char(c)) end --[0-9]
@@ -10,14 +10,14 @@ local alphanumerical = {}  do -- [0-9a-zA-Z]
 end
 
 -- Generate random string with given length, use given optional charset.
-function mylib.string.random(length, charset)
+function pdlibs.string.random(length, charset)
     if (not length or length <= 0) then return "" end
     charset = charset or alphanumerical
     local c = charset[math.random(#charset-1)]
-    return c .. mylib.string.random(length-1)
+    return c .. pdlibs.string.random(length-1)
 end
 
-function mylib.string.toArray(string)
+function pdlibs.string.toArray(string)
     array = {}
     for i = 1, #string do
         array[i] = string:sub(i,i)

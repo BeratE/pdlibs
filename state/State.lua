@@ -1,24 +1,24 @@
 import "CoreLibs/object"
 
 
-mylib = mylib or {}
-mylib.state = {}
+pdlibs = pdlibs or {}
+pdlibs.state = {}
 
 -- Abstract representation of a state.
-class('State', {}, mylib.state).extends()
+class('State', {}, pdlibs.state).extends()
 
 -- Called when creating the state (object constructor)
-function mylib.state.State:init()
+function pdlibs.state.State:init()
 end
 
 -- Called when entering the state.
-function mylib.state.State:onEnter()
+function pdlibs.state.State:onEnter()
 end
 
 -- Called when exiting the state.
-function mylib.state.State:onExit()
+function pdlibs.state.State:onExit()
 end
 
 -- Called on every update iteration.
-function mylib.state.State:onUpdate()
+function pdlibs.state.State:onUpdate()
 end

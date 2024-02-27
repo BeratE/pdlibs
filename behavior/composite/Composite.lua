@@ -3,14 +3,14 @@ import "CoreLibs/object"
 import "pdlibs/behavior/Behavior"
 
 -- Compositie node containing many children.
-class('Composite', {}, mylib.behavior).extends(mylib.behavior.Behavior)
+class('Composite', {}, pdlibs.behavior).extends(pdlibs.behavior.Behavior)
 
-function mylib.behavior.Composite:init(children)
-    mylib.behavior.Composite.super.init(self)
+function pdlibs.behavior.Composite:init(children)
+    pdlibs.behavior.Composite.super.init(self)
     self:setChildren(children)
 end
 
-function mylib.behavior.Composite:setChildren(children)
+function pdlibs.behavior.Composite:setChildren(children)
     assert(children and type(children) == "table", "Composite behavior requires a table of children objects")
     self.children = {}
     for _, child in pairs(children) do
@@ -18,33 +18,33 @@ function mylib.behavior.Composite:setChildren(children)
     end
 end
 
-function mylib.behavior.Composite:getChild(index)
+function pdlibs.behavior.Composite:getChild(index)
     return self.children[index]
 end
 
-function mylib.behavior.Composite:addChild(child, index)
-    assert(child:isa(mylib.behavior.Behavior), "Invalid child object passed to Composite behavior")
+function pdlibs.behavior.Composite:addChild(child, index)
+    assert(child:isa(pdlibs.behavior.Behavior), "Invalid child object passed to Composite behavior")
     child:setParent(self)
     table.insert(self.children, index, child)
 end
 
-function mylib.behavior.Composite:removeChild(index)
+function pdlibs.behavior.Composite:removeChild(index)
     return table.remove(self.children, index)
 end
 
-function mylib.behavior.Composite:addChildFront(child)
+function pdlibs.behavior.Composite:addChildFront(child)
     self:addChild(child, 1)
 end
 
-function mylib.behavior.Composite:addChildBack(child)
+function pdlibs.behavior.Composite:addChildBack(child)
     self:addChild(child, #self.children+1)
 end
 
-function mylib.behavior.Composite:removeChildFront()
+function pdlibs.behavior.Composite:removeChildFront()
     return self:removeChild(1)
 end
 
-function mylib.behavior.Composite:removeChildBack()
+function pdlibs.behavior.Composite:removeChildBack()
     return self:removeChild(#self.children)
 end
 

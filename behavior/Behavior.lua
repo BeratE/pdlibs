@@ -1,12 +1,12 @@
 import "CoreLibs/object"
 
 -- Abstract node in an BehaviorTree, as interface that can be actived, run and deactived.
-mylib = mylib or {}
-mylib.behavior = mylib.behavior or {}
-class('Behavior', {}, mylib.behavior).extends()
+pdlibs = pdlibs or {}
+pdlibs.behavior = pdlibs.behavior or {}
+class('Behavior', {}, pdlibs.behavior).extends()
 
 -- Behavior Status
-mylib.behavior.Status = {
+pdlibs.behavior.Status = {
     -- Completion Status
     SUCCESS = true,
     FAILURE = false,
@@ -16,34 +16,34 @@ mylib.behavior.Status = {
     ABORTED   = 2,
 }
 
-function mylib.behavior.Behavior:init()
-    mylib.behavior.Behavior.super.init(self)
-    self.status = mylib.behavior.Status.INVALID
+function pdlibs.behavior.Behavior:init()
+    pdlibs.behavior.Behavior.super.init(self)
+    self.status = pdlibs.behavior.Status.INVALID
     self.parent = nil
 end
 
 -- Called once, immediately before first call to update.
-function mylib.behavior.Behavior:onActivate()
-    self.status = mylib.behavior.Status.RUNNING
+function pdlibs.behavior.Behavior:onActivate()
+    self.status = pdlibs.behavior.Status.RUNNING
     self.nTicks = 0
 end
 
 -- Called once, immediately after last call to update.
-function mylib.behavior.Behavior:onTerminate(status)
+function pdlibs.behavior.Behavior:onTerminate(status)
 end
 
 -- Update the behavior. Override this.
-function mylib.behavior.Behavior:onUpdate()
-    return mylib.behavior.Status.SUCCESS
+function pdlibs.behavior.Behavior:onUpdate()
+    return pdlibs.behavior.Status.SUCCESS
 end
 
 -- Called when the behavior is aborted. Override if necessary.
-function mylib.behavior.Behavior:onAbort()
+function pdlibs.behavior.Behavior:onAbort()
     self:onTerminate()
 end
 
 -- Wrapper function for updating the behavior. Dont override!
-function mylib.behavior.Behavior:update()
+function pdlibs.behavior.Behavior:update()
     if (not self:isRunning()) then
         self:onActivate()
     end
@@ -56,27 +56,27 @@ function mylib.behavior.Behavior:update()
 end
 
 -- Call to imediately end a running behavior.
-function mylib.behavior.Behavior:abort()
-    if (self.status == mylib.behavior.Status.RUNNING) then
-        self.status = mylib.behavior.Status.ABORTED
+function pdlibs.behavior.Behavior:abort()
+    if (self.status == pdlibs.behavior.Status.RUNNING) then
+        self.status = pdlibs.behavior.Status.ABORTED
         self:onAbort()
     end
 end
 
 -- Check if behavior is currently running.
-function mylib.behavior.Behavior:isRunning()
-    return self.status == mylib.behavior.Status.RUNNING
+function pdlibs.behavior.Behavior:isRunning()
+    return self.status == pdlibs.behavior.Status.RUNNING
 end
 
 -- Get the status from the last call to update.
-function mylib.behavior.Behavior:getStatus()
+function pdlibs.behavior.Behavior:getStatus()
     return self.status
 end
 
-function mylib.behavior.Behavior:setParent(parent)
+function pdlibs.behavior.Behavior:setParent(parent)
     self.parent = parent
 end
 
-function mylib.behavior.Behavior:isRoot()
+function pdlibs.behavior.Behavior:isRoot()
     return self.parent == nil
 end
