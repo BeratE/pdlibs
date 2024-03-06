@@ -7,8 +7,8 @@ class('StateMachine', {}, pdlibs.state).extends()
 
 function pdlibs.state.StateMachine:init(state)
     pdlibs.state.StateMachine.super.init(self)
-    self.currentState = state or pdlibs.state.State()
-    self.previousState = pdlibs.state.State()
+    self.current = state or pdlibs.state.State()
+    self.previous = pdlibs.state.State()
 end
 
 -- Switch to the given state
@@ -16,12 +16,12 @@ function pdlibs.state.StateMachine:switch(state,
     --[[optional]] skipExit,
     --[[optional]] skipEnter)
     if (not skipExit) then
-        self.currentState:onExit()
+        self.current:onExit()
     end
-    self.previousState = self.currentState
-    self.currentState = state
+    self.previous = self.current
+    self.current = state
     if (not skipEnter) then
-        self.currentState:onEnter()
+        self.current:onEnter()
     end
 end
 
@@ -29,23 +29,23 @@ end
 function pdlibs.state.StateMachine:revert(
     --[[optional]] skipExit,
     --[[optional]] skipEnter)
-    scene = self.currentState
+    scene = self.current
     if (not skipExit) then
-        self.currentState:onExit()
+        self.current:onExit()
     end
-    self.currentState = self.previousState
-    self.previousState = scene
+    self.current = self.previous
+    self.previous = scene
     if (not skipEnter) then
-        self.currentState:onEnter()
+        self.current:onEnter()
     end
 end
 
 -- Update the current state
 function pdlibs.state.StateMachine:update()
-    self.currentState:onUpdate()
+    self.current:onUpdate()
 end
 
 -- Override object isa function
 function pdlibs.state.StateMachine:isa(class)
-    self.currentState:isa(class)
+    self.current:isa(class)
 end
