@@ -24,3 +24,11 @@ function pdlibs.string.toArray(string)
     end
     return array
 end
+
+function pdlibs.string.cutPathToFilename(filepath)
+    local slashIdx = string.find(filepath, "/[^/]*$")
+    if (slashIdx) then
+        filepath = string.sub(filepath, slashIdx)
+    end
+    return filepath
+end
